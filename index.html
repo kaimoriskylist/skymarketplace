@@ -3,215 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sky Marketplace — Secure Trading Hub for Buyers & Sellers</title>
+<title>Sky Marketplace — Secure Trading Network</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ================= ROOT ================= */
 :root{
   --bg0:#03050b;
   --bg1:#070b17;
-  --glass:rgba(255,255,255,.10);
-  --glass2:rgba(255,255,255,.06);
+  --glass1:rgba(255,255,255,.10);
+  --glass2:rgba(255,255,255,.05);
   --stroke:rgba(255,255,255,.22);
-  --stroke2:rgba(255,255,255,.14);
   --blue:#63dcff;
   --purple:#a07bff;
   --gold:#ffd47a;
-  --radius:28px;
-  --shadow:0 30px 100px rgba(0,0,0,.65);
+  --shadow:0 30px 120px rgba(0,0,0,.7);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
+
 body{
-  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto;
+  font-family:Poppins,system-ui;
   color:#fff;
-  background:
-    radial-gradient(1200px 700px at 30% 25%, rgba(99,220,255,.15), transparent 55%),
-    radial-gradient(1200px 700px at 75% 70%, rgba(160,123,255,.15), transparent 55%),
-    linear-gradient(120deg,var(--bg1),var(--bg0));
+  background:linear-gradient(120deg,var(--bg1),var(--bg0));
   overflow-x:hidden;
 }
 
-/* Background motion */
-.bg{position:fixed;inset:0;z-index:-10;
+/* ================= CINEMATIC BACKGROUND ================= */
+.bg{
+  position:fixed; inset:-20%;
   background:
-    radial-gradient(900px 600px at 25% 20%, rgba(99,220,255,.18), transparent 60%),
-    radial-gradient(900px 600px at 75% 75%, rgba(160,123,255,.18), transparent 62%),
-    linear-gradient(120deg,#0a1233,#040712);
-  animation:hue 12s infinite alternate ease-in-out;
+    radial-gradient(circle at 20% 20%, rgba(99,220,255,.18), transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(160,123,255,.18), transparent 60%),
+    radial-gradient(circle at 60% 40%, rgba(255,212,122,.10), transparent 50%),
+    linear-gradient(120deg,#0b1440,#02040b);
+  animation:bgShift 14s ease-in-out infinite alternate;
+  z-index:-10;
 }
-@keyframes hue{to{filter:hue-rotate(20deg)}}
+@keyframes bgShift{
+  to{filter:hue-rotate(25deg) saturate(140%)}
+}
 
-.clouds{
-  position:fixed;inset:-40%;z-index:-9;
+/* moving fog */
+.fog{
+  position:fixed; inset:-50%;
   background:
-    radial-gradient(closest-side,rgba(255,255,255,.08),transparent 68%) 0 0/280px 280px,
-    radial-gradient(closest-side,rgba(255,255,255,.06),transparent 68%) 140px 60px/360px 360px;
-  filter:blur(12px);opacity:.75;
-  animation:drift 28s linear infinite;
+    radial-gradient(closest-side, rgba(255,255,255,.08), transparent 70%) 0 0/260px 260px,
+    radial-gradient(closest-side, rgba(255,255,255,.06), transparent 70%) 140px 80px/360px 360px;
+  filter:blur(18px);
+  opacity:.65;
+  animation:fogMove 40s linear infinite;
+  z-index:-9;
 }
-@keyframes drift{to{transform:translate(6%,2%) scale(1.15)}}
+@keyframes fogMove{
+  to{transform:translate(6%,3%)}
+}
 
-/* Glass */
+/* ================= PARTICLES ================= */
+canvas#fx{
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:-8;
+}
+
+/* ================= GLASS ================= */
 .glass{
-  background:linear-gradient(180deg,var(--glass),var(--glass2));
+  background:linear-gradient(180deg,var(--glass1),var(--glass2));
   border:1px solid var(--stroke);
-  border-radius:var(--radius);
-  backdrop-filter:blur(18px);
+  backdrop-filter:blur(20px);
+  border-radius:30px;
   box-shadow:var(--shadow);
 }
 
-/* Layout */
-.wrap{width:min(1200px,92vw);margin:0 auto}
-section{padding:96px 0}
-
-/* Nav */
+/* ================= NAV ================= */
 .nav{
-  position:sticky;top:16px;z-index:100;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 18px;margin-top:16px;
+  position:sticky; top:16px; z-index:100;
+  margin:16px auto;
+  padding:14px 18px;
+  max-width:1200px;
+  display:flex; justify-content:space-between; align-items:center;
 }
 .brand{display:flex;align-items:center;gap:14px}
-.brand img{width:44px;height:44px;border-radius:14px}
-.brand b{font-family:Orbitron;letter-spacing:1px;font-size:15px}
-.brand small{opacity:.75;font-size:12px}
-
-.navlinks{display:flex;gap:10px;flex-wrap:wrap}
-.navlinks a{
-  padding:9px 14px;border-radius:999px;
-  border:1px solid var(--stroke2);
-  background:rgba(0,0,0,.25);
-  color:#fff;text-decoration:none;font-size:12px;
+.brand img{width:46px;height:46px;border-radius:14px}
+.brand b{font-family:Orbitron;letter-spacing:1px}
+.nav a{
+  color:#fff;text-decoration:none;
+  padding:10px 14px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(0,0,0,.3);
+  font-size:12px;
   transition:.25s;
 }
-.navlinks a:hover{transform:translateY(-2px);border-color:var(--stroke)}
+.nav a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 40px rgba(99,220,255,.35);
+}
 
-/* Hero */
-.hero{min-height:calc(100vh - 90px);display:grid;place-items:center}
-.heroCard{padding:34px;position:relative;overflow:hidden}
-.heroGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px}
+/* ================= HERO ================= */
+.hero{
+  min-height:100vh;
+  display:grid; place-items:center;
+}
+.heroCard{
+  max-width:1200px;
+  padding:42px;
+  position:relative;
+  overflow:hidden;
+}
+.heroCard::before{
+  content:"";
+  position:absolute; inset:-60%;
+  background:conic-gradient(from 180deg,
+    rgba(99,220,255,.0),
+    rgba(99,220,255,.25),
+    rgba(160,123,255,.0),
+    rgba(255,212,122,.18),
+    rgba(99,220,255,.0));
+  animation:spin 14s linear infinite;
+  filter:blur(18px);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.heroGrid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:40px;
+  position:relative;
+  z-index:2;
+}
 @media(max-width:900px){.heroGrid{grid-template-columns:1fr}}
 
 .heroTitle{
   font-family:Orbitron;
-  font-size:clamp(46px,5vw,74px);
-  font-weight:800;letter-spacing:2px;
+  font-size:clamp(52px,6vw,86px);
   background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:textGlow 4s ease-in-out infinite alternate;
 }
-.heroSub{margin-top:14px;font-size:15px;line-height:1.8;opacity:.92}
+@keyframes textGlow{
+  to{text-shadow:0 0 40px rgba(99,220,255,.6)}
+}
 
-.cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
+.heroSub{
+  margin-top:18px;
+  font-size:16px;
+  line-height:1.9;
+  opacity:.9;
+}
+
+/* CTA */
+.cta{margin-top:22px;display:flex;gap:14px;flex-wrap:wrap}
 .btn{
-  padding:14px 20px;border-radius:999px;
-  border:none;cursor:pointer;font-weight:700;
+  padding:16px 22px;
+  border-radius:999px;
+  border:none;
+  font-weight:800;
+  cursor:pointer;
   background:linear-gradient(135deg,var(--blue),var(--purple));
   color:#081018;
+  box-shadow:0 0 60px rgba(99,220,255,.35);
   transition:.25s;
 }
 .btn.secondary{
   background:rgba(255,255,255,.10);
-  border:1px solid var(--stroke2);
+  border:1px solid rgba(255,255,255,.18);
   color:#fff;
+  box-shadow:none;
 }
-.btn:hover{transform:translateY(-3px) scale(1.04)}
+.btn:hover{transform:scale(1.06)}
 
-.bigLogo{
-  aspect-ratio:1/1;border-radius:32px;
+/* ================= LOGO 3D ================= */
+.logoBox{
+  aspect-ratio:1/1;
+  border-radius:36px;
   display:grid;place-items:center;
   background:
-    radial-gradient(circle at 30% 20%, rgba(99,220,255,.22), transparent 55%),
-    radial-gradient(circle at 70% 80%, rgba(160,123,255,.22), transparent 60%),
-    rgba(255,255,255,.06);
+    radial-gradient(circle at 30% 20%, rgba(99,220,255,.25), transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(160,123,255,.25), transparent 60%),
+    rgba(255,255,255,.05);
   animation:float 5s ease-in-out infinite;
+  transform-style:preserve-3d;
 }
-@keyframes float{50%{transform:translateY(-16px)}}
-.bigLogo img{width:78%;filter:drop-shadow(0 20px 50px rgba(0,0,0,.6))}
+@keyframes float{50%{transform:translateY(-18px)}}
+.logoBox img{
+  width:78%;
+  filter:drop-shadow(0 25px 60px rgba(0,0,0,.7));
+  transform:translateZ(28px);
+}
 
-/* Section titles */
+/* ================= SECTIONS ================= */
+section{padding:120px 0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+
 h2{
   font-family:Orbitron;
-  font-size:clamp(30px,3vw,44px);
-  margin-bottom:14px;letter-spacing:1px;
+  font-size:42px;
+  margin-bottom:14px;
 }
-.sectionSub{max-width:90ch;opacity:.86;line-height:1.8;font-size:14px}
+p.sub{opacity:.85;max-width:80ch;line-height:1.9}
 
-/* Grid cards */
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-.card{padding:24px;position:relative}
-.c1{grid-column:span 4}
-.c2{grid-column:span 8}
-.c3{grid-column:span 6}
-@media(max-width:980px){.c1,.c2,.c3{grid-column:span 12}}
-
-.icon{
-  width:44px;height:44px;border-radius:14px;
-  display:grid;place-items:center;
-  background:rgba(255,255,255,.08);
-  margin-bottom:12px;
+/* Cards */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:18px;
+  margin-top:36px;
 }
+.card{
+  padding:28px;
+  grid-column:span 4;
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s cubic-bezier(.2,.8,.2,1);
+}
+.card.show{
+  opacity:1;
+  transform:translateY(0);
+}
+@media(max-width:900px){.card{grid-column:span 12}}
 
-/* Owner */
-.ownerHead{display:flex;gap:16px;align-items:center}
-.pfp{width:78px;height:78px;border-radius:22px;overflow:hidden}
-.pfp img{width:100%;height:100%;object-fit:cover}
-.ownerName{font-family:Orbitron;font-size:18px}
-.ownerUser{font-size:12px;opacity:.8}
+/* ================= OWNER ================= */
+.owner{
+  display:flex;gap:24px;align-items:center;flex-wrap:wrap;
+}
+.owner img{
+  width:90px;height:90px;border-radius:26px;
+  box-shadow:0 0 60px rgba(160,123,255,.4);
+}
+.owner h3{font-family:Orbitron}
 
-/* Footer */
+/* ================= FOOTER ================= */
 footer{
-  padding:48px 0 64px;
-  text-align:center;font-size:12px;opacity:.7
+  padding:60px 0;
+  text-align:center;
+  opacity:.7;
+  font-size:12px;
 }
 </style>
 </head>
 
 <body>
 <div class="bg"></div>
-<div class="clouds"></div>
+<div class="fog"></div>
+<canvas id="fx"></canvas>
 
-<div class="wrap">
-  <nav class="nav glass">
-    <div class="brand">
-      <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
-      <div>
-        <b>SKY MARKETPLACE</b><br>
-        <small>Secure Trading • Verified Markets • Trusted Network</small>
-      </div>
-    </div>
-    <div class="navlinks">
-      <a href="#markets">Markets</a>
-      <a href="#slots">Slots</a>
-      <a href="#owner">Owner</a>
-      <a href="https://discord.gg/SMAGtay8A2" target="_blank">Discord</a>
-    </div>
-  </nav>
-</div>
+<nav class="nav glass">
+  <div class="brand">
+    <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
+    <b>SKY MARKETPLACE</b>
+  </div>
+  <div>
+    <a href="#markets">Markets</a>
+    <a href="#owner">Owner</a>
+    <a href="https://discord.gg/SMAGtay8A2" target="_blank">Discord</a>
+  </div>
+</nav>
 
 <main class="hero">
-  <div class="wrap">
-    <div class="heroCard glass">
-      <div class="heroGrid">
-        <div>
-          <div class="heroTitle">SKY MARKETPLACE</div>
-          <div class="heroSub">
-            A secure digital marketplace where buyers and sellers connect through
-            structured, verified trading environments.
-            <br><br>
-            Built for visibility, trust, and long-term scalability.
-          </div>
-          <div class="cta">
-            <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank">Join Discord</a>
-            <a class="btn secondary" href="#markets">Explore Markets</a>
-          </div>
+  <div class="heroCard glass">
+    <div class="heroGrid">
+      <div>
+        <div class="heroTitle">SKY MARKETPLACE</div>
+        <div class="heroSub">
+          A high-end digital trading network connecting buyers and sellers
+          through structured, verified marketplaces built for scale and trust.
         </div>
-        <div class="bigLogo glass">
-          <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
+        <div class="cta">
+          <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank">Join Discord</a>
+          <a class="btn secondary" href="#markets">Explore Markets</a>
         </div>
+      </div>
+      <div class="logoBox glass">
+        <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
       </div>
     </div>
   </div>
@@ -220,52 +286,23 @@ footer{
 <section id="markets">
   <div class="wrap">
     <h2>Marketplaces</h2>
-    <p class="sectionSub">
-      Sky Marketplace hosts multiple verified trading categories,
-      each designed to keep listings organized and discoverable.
-    </p>
+    <p class="sub">Dedicated environments designed for visibility, order, and trust.</p>
     <div class="grid">
-      <div class="card glass c3">
-        <div class="icon">🔐</div>
-        <h3>MFA Marketplace</h3>
-        <p>Dedicated environment for MFA-based products and services.</p>
-      </div>
-      <div class="card glass c3">
-        <div class="icon">🎁</div>
-        <h3>Nitro Marketplace</h3>
-        <p>Structured trading space for Nitro-related offers.</p>
-      </div>
-      <div class="card glass c3">
-        <div class="icon">✨</div>
-        <h3>Additional Markets</h3>
-        <p>Scalable infrastructure for future categories and services.</p>
-      </div>
+      <div class="card glass">🔐 MFA Marketplace</div>
+      <div class="card glass">🎁 Nitro Marketplace</div>
+      <div class="card glass">✨ Expanding Categories</div>
     </div>
-  </div>
-</section>
-
-<section id="slots">
-  <div class="wrap">
-    <h2>Marketplace Slots</h2>
-    <p class="sectionSub">
-      Slots provide verified placement within a trading category,
-      ensuring market quality, visibility, and reduced clutter.
-    </p>
   </div>
 </section>
 
 <section id="owner">
   <div class="wrap">
     <h2>Platform Leadership</h2>
-    <div class="card glass c3">
-      <div class="ownerHead">
-        <div class="pfp">
-          <img src="https://cdn.discordapp.com/avatars/689027049230565392/be576c887e27ad5c015999a26ffc8e21.webp?size=4096">
-        </div>
-        <div>
-          <div class="ownerName">SAS X MUHIO</div>
-          <div class="ownerUser">@muhio.sas • 689027049230565392</div>
-        </div>
+    <div class="owner glass" style="padding:28px">
+      <img src="https://cdn.discordapp.com/avatars/689027049230565392/be576c887e27ad5c015999a26ffc8e21.webp?size=4096">
+      <div>
+        <h3>SAS X MUHIO</h3>
+        <p class="sub">@muhio.sas • 689027049230565392</p>
       </div>
     </div>
   </div>
@@ -274,5 +311,51 @@ footer{
 <footer>
   © Sky Marketplace • Secure Trading Network • discord.gg/SMAGtay8A2
 </footer>
+
+<script>
+/* ===== reveal on scroll ===== */
+const cards=document.querySelectorAll('.card');
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(x.isIntersecting){
+      x.target.classList.add('show');
+      io.unobserve(x.target);
+    }
+  })
+},{threshold:.15});
+cards.forEach(c=>io.observe(c));
+
+/* ===== particles ===== */
+const c=document.getElementById("fx");
+const ctx=c.getContext("2d");
+let w,h;
+function resize(){
+  w=c.width=window.innerWidth;
+  h=c.height=window.innerHeight;
+}
+resize();window.onresize=resize;
+
+const P=[...Array(120)].map(()=>({
+  x:Math.random()*w,y:Math.random()*h,
+  r:Math.random()*2+1,
+  vx:(Math.random()-.5)*.3,
+  vy:(Math.random()-.5)*.3
+}));
+
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  P.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>w)p.vx*=-1;
+    if(p.y<0||p.y>h)p.vy*=-1;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,.35)";
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
 </body>
 </html>
