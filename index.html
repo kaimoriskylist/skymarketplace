@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Marketplace</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#05080f;
+      --bg1:#0a1020;
+      --glass: rgba(255,255,255,.085);
+      --glass2: rgba(255,255,255,.055);
+      --stroke: rgba(255,255,255,.22);
+      --stroke2: rgba(255,255,255,.14);
+      --blue:#63dcff;
+      --purple:#a07bff;
+      --gold:#ffd47a;
+      --shadow: 0 30px 90px rgba(0,0,0,.55);
+      --shadow2: 0 15px 45px rgba(0,0,0,.45);
+      --radius: 26px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background: radial-gradient(1200px 700px at 30% 25%, rgba(99,220,255,.18), transparent 55%),
+                  radial-gradient(1200px 700px at 70% 70%, rgba(160,123,255,.18), transparent 55%),
+                  linear-gradient(120deg, var(--bg1), var(--bg0));
+      color:#fff;
+      font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      overflow-x:hidden;
+    }
+
+    /* --- “VIDEO-LIKE” MOVING SKY BACKGROUND LAYERS --- */
+    .bg{
+      position:fixed; inset:0; z-index:-4;
+      background: radial-gradient(900px 540px at 20% 25%, rgba(99,220,255,.22), transparent 55%),
+                  radial-gradient(1000px 600px at 80% 65%, rgba(160,123,255,.22), transparent 60%),
+                  radial-gradient(700px 460px at 60% 20%, rgba(255,212,122,.12), transparent 55%),
+                  linear-gradient(120deg, #0b1230, #05080f);
+      filter:saturate(120%);
+      animation:hue 10s infinite alternate ease-in-out;
+    }
+    @keyframes hue { from{filter:hue-rotate(0deg) saturate(120%)} to{filter:hue-rotate(18deg) saturate(140%)} }
+
+    /* Cloud streak layer */
+    .clouds{
+      position:fixed; inset:-30%; z-index:-3;
+      background:
+        radial-gradient(closest-side, rgba(255,255,255,.08), transparent 70%) 0 0/260px 260px,
+        radial-gradient(closest-side, rgba(255,255,255,.06), transparent 70%) 120px 80px/320px 320px,
+        radial-gradient(closest-side, rgba(255,255,255,.05), transparent 70%) 240px 30px/380px 380px;
+      filter: blur(10px);
+      opacity:.7;
+      animation: drift 28s linear infinite;
+      transform: translate3d(0,0,0);
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-6%, -2%, 0) scale(1.1) }
+      to  { transform: translate3d(6%, 2%, 0)  scale(1.1) }
+    }
+
+    /* Stars + particles */
+    .stars{
+      position:fixed; inset:0; z-index:-2;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.45) 0 1px, transparent 2px) 0 0/140px 140px,
+        radial-gradient(circle, rgba(255,255,255,.35) 0 1px, transparent 2px) 60px 30px/160px 160px,
+        radial-gradient(circle, rgba(255,255,255,.25) 0 1px, transparent 2px) 30px 90px/180px 180px;
+      opacity:.35;
+      animation: twinkle 6s ease-in-out infinite alternate;
+    }
+    @keyframes twinkle{ from{opacity:.25} to{opacity:.55} }
+
+    /* --- GLASSMORPHISM --- */
+    .glass{
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    /* --- GLOBAL LAYOUT --- */
+    .wrap{ width:min(1180px, 92vw); margin:0 auto; }
+    .nav{
+      position:sticky; top:18px; z-index:50;
+      padding:14px 18px;
+      margin:18px auto 0;
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      user-select:none;
+    }
+    .brand img{
+      width:42px; height:42px; border-radius:14px;
+      box-shadow: 0 0 30px rgba(99,220,255,.25);
+    }
+    .brand b{
+      font-family:Orbitron, sans-serif;
+      letter-spacing:1px;
+      font-size:16px;
+    }
+    .navlinks{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .chip{
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.06);
+      font-size:12px;
+      opacity:.9;
+      cursor:pointer;
+      transition:.25s;
+      position:relative;
+      overflow:hidden;
+    }
+    .chip:hover{
+      transform: translateY(-2px);
+      border-color: var(--stroke);
+      opacity:1;
+    }
+
+    /* --- HERO / TRAILER --- */
+    .hero{
+      min-height: calc(100vh - 90px);
+      display:grid;
+      place-items:center;
+      padding: 44px 0 34px;
+    }
+    .heroCard{
+      padding: 34px 28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+    }
+    @media (max-width: 920px){
+      .heroGrid{ grid-template-columns:1fr; }
+    }
+
+    .heroTitle{
+      font-family:Orbitron, sans-serif;
+      font-weight:800;
+      font-size: clamp(40px, 5vw, 72px);
+      letter-spacing: 2px;
+      line-height: 1.02;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--gold));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,.35));
+    }
+    .heroSub{
+      margin-top: 14px;
+      font-size: 15px;
+      opacity:.9;
+      max-width: 56ch;
+    }
+
+    /* animated tagline */
+    .ticker{
+      margin-top: 18px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke2);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      position:relative;
+    }
+    .tickerTrack{
+      display:flex;
+      gap:28px;
+      width:max-content;
+      animation: ticker 16s linear infinite;
+      opacity:.95;
+      font-size: 13px;
+      white-space:nowrap;
+    }
+    @keyframes ticker{
+      from{ transform: translateX(0) }
+      to{ transform: translateX(-50%) }
+    }
+
+    .ctaRow{
+      margin-top: 18px;
+      display:flex; gap:12px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      border:none;
+      padding: 14px 18px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight:700;
+      color:#081018;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 0 40px rgba(99,220,255,.25);
+      transition:.25s;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn:hover{
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 70px rgba(160,123,255,.45);
+    }
+    .btn.secondary{
+      color:#fff;
+      background: rgba(255,255,255,.09);
+      border: 1px solid var(--stroke2);
+      box-shadow:none;
+    }
+    .btn.secondary:hover{
+      border-color: var(--stroke);
+      background: rgba(255,255,255,.12);
+    }
+
+    /* right side “logo trailer” */
+    .logoShow{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+    }
+    .bigLogo{
+      width:min(340px, 72vw);
+      aspect-ratio: 1/1;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(99,220,255,.25), transparent 55%),
+        radial-gradient(circle at 70% 80%, rgba(160,123,255,.25), transparent 60%),
+        rgba(255,255,255,.06);
+      border:1px solid var(--stroke2);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      position:relative;
+      box-shadow: var(--shadow);
+      transform: translate3d(0,0,0);
+      animation: float 4.5s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{ transform: translateY(0) }
+      50%{ transform: translateY(-16px) }
+    }
+    .bigLogo::before{
+      content:"";
+      position:absolute; inset:-50%;
+      background: conic-gradient(from 180deg, rgba(99,220,255,.0), rgba(99,220,255,.28), rgba(160,123,255,.0), rgba(255,212,122,.18), rgba(99,220,255,.0));
+      animation: spin 10s linear infinite;
+      filter: blur(10px);
+    }
+    @keyframes spin{ to{ transform: rotate(360deg) } }
+    .bigLogo img{
+      width: 78%;
+      filter: drop-shadow(0 20px 50px rgba(0,0,0,.55));
+      position:relative;
+      z-index:2;
+      transform: translateZ(0);
+    }
+
+    .miniStats{
+      width:100%;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    .stat{
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,.06);
+      text-align:center;
+      transition:.25s;
+    }
+    .stat:hover{ transform: translateY(-3px); border-color: var(--stroke); }
+    .stat b{ display:block; font-family:Orbitron; letter-spacing:1px; }
+    .stat span{ font-size:12px; opacity:.85; }
+
+    /* --- SECTIONS --- */
+    section{ padding: 90px 0; }
+    .sectionTitle{
+      font-family:Orbitron;
+      font-size: clamp(28px, 3.2vw, 44px);
+      margin-bottom: 18px;
+      letter-spacing:1px;
+    }
+    .sectionSub{
+      opacity:.85;
+      max-width: 80ch;
+      margin-bottom: 26px;
+      font-size: 14px;
+      line-height:1.65;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      padding: 22px;
+      position:relative;
+      overflow:hidden;
+      transform: translateY(14px);
+      opacity:0;
+      transition: .7s cubic-bezier(.2,.8,.2,1);
+    }
+    .card.show{
+      transform: translateY(0);
+      opacity:1;
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:-60px;
+      background: radial-gradient(circle at 20% 30%, rgba(99,220,255,.18), transparent 55%),
+                  radial-gradient(circle at 80% 70%, rgba(160,123,255,.18), transparent 60%);
+      opacity:.65;
+      pointer-events:none;
+    }
+    .card > *{ position:relative; z-index:1; }
+
+    .c1{ grid-column: span 4; }
+    .c2{ grid-column: span 8; }
+    .c3{ grid-column: span 6; }
+    .c4{ grid-column: span 3; }
+    @media (max-width: 980px){
+      .c1,.c2,.c3,.c4{ grid-column: span 12; }
+    }
+
+    .icon{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--stroke2);
+      margin-bottom: 12px;
+      font-size:18px;
+    }
+
+    .card h3{
+      font-size: 18px;
+      margin-bottom: 8px;
+      font-family: Orbitron;
+      letter-spacing: .8px;
+    }
+    .card p{
+      opacity:.88;
+      font-size: 13px;
+      line-height:1.7;
+    }
+
+    .list{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .row{
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid var(--stroke2);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .row small{ opacity:.8 }
+    .badge{
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid var(--stroke2);
+      white-space:nowrap;
+    }
+
+    /* --- FOOTER --- */
+    footer{
+      padding: 40px 0 60px;
+      opacity:.68;
+      text-align:center;
+      font-size: 12px;
+    }
+
+    /* --- cursor glow (heavy feel) --- */
+    .glow{
+      position:fixed;
+      width:520px;height:520px;
+      border-radius:50%;
+      background: radial-gradient(circle, rgba(99,220,255,.13), transparent 60%);
+      pointer-events:none;
+      z-index:-1;
+      filter: blur(14px);
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg"></div>
+  <div class="clouds"></div>
+  <div class="stars"></div>
+  <div class="glow" id="glow"></div>
+
+  <!-- NAV -->
+  <div class="wrap">
+    <div class="nav glass">
+      <div class="brand">
+        <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048" alt="logo">
+        <div>
+          <b>SKY MARKETPLACE</b><br>
+          <span style="font-size:12px;opacity:.8;">Glass UI • Trailer Landing • Showcase</span>
+        </div>
+      </div>
+
+      <div class="navlinks">
+        <div class="chip" data-scroll="#how">How It Works</div>
+        <div class="chip" data-scroll="#markets">Marketplaces</div>
+        <div class="chip" data-scroll="#slots">Slot Info</div>
+        <div class="chip" data-scroll="#contact">Contact</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <main class="hero">
+    <div class="wrap">
+      <div class="heroCard glass">
+        <div class="heroGrid">
+          <div>
+            <div class="heroTitle">SKY MARKETPLACE</div>
+            <div class="heroSub">
+              Buy Slots • Sellers Find Buyers • Buyers Find Sellers.<br>
+              Explore different marketplaces and discover trusted shops — all inside one Sky.
+            </div>
+
+            <div class="ticker">
+              <div class="tickerTrack">
+                <span>☁️ Sky Marketplace</span>
+                <span>🎟 Buy Slot</span>
+                <span>🧾 Open Discord Ticket</span>
+                <span>🛒 Sellers find buyers</span>
+                <span>💸 Buyers find sellers</span>
+                <span>🔐 MFA Market</span>
+                <span>🎁 Nitros</span>
+                <span>✨ More marketplaces</span>
+                <span>☁️ Sky Marketplace</span>
+                <span>🎟 Buy Slot</span>
+                <span>🧾 Open Discord Ticket</span>
+                <span>🛒 Sellers find buyers</span>
+                <span>💸 Buyers find sellers</span>
+                <span>🔐 MFA Market</span>
+                <span>🎁 Nitros</span>
+                <span>✨ More marketplaces</span>
+              </div>
+            </div>
+
+            <div class="ctaRow">
+              <button class="btn" data-scroll="#slots">Buy Slot</button>
+              <button class="btn secondary" data-scroll="#markets">Explore Markets</button>
+              <button class="btn secondary" data-scroll="#how">How It Works</button>
+              <button class="btn secondary" data-scroll="#contact">Contact Us</button>
+            </div>
+
+            <div style="margin-top:16px;opacity:.75;font-size:12px">
+              Showcase only: “Make a ticket in Discord & get a slot” section is for display / owners.
+            </div>
+          </div>
+
+          <div class="logoShow">
+            <div class="bigLogo">
+              <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048" alt="Sky Marketplace">
+            </div>
+
+            <div class="miniStats">
+              <div class="stat">
+                <b>Slots</b><span>Get yours</span>
+              </div>
+              <div class="stat">
+                <b>Markets</b><span>Multiple</span>
+              </div>
+              <div class="stat">
+                <b>Tickets</b><span>Discord</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- heroCard -->
+    </div><!-- wrap -->
+  </main>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="sectionTitle">How It Works</div>
+      <div class="sectionSub">
+        Sky Marketplace is designed like a hub: sellers and buyers meet through organized marketplaces.
+        To get listed, you purchase a slot — then you’ll be visible in the right shop category.
+      </div>
+
+      <div class="grid">
+        <div class="card glass c1">
+          <div class="icon">🎟</div>
+          <h3>Buy Slot</h3>
+          <p>Purchase a slot to get access to a shop category and listing privileges.</p>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">🧾</div>
+          <h3>Open Ticket</h3>
+          <p>Create a Discord ticket to request a slot. Staff will guide the process.</p>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">🛒</div>
+          <h3>Sellers</h3>
+          <p>List items in the correct market and let buyers discover your shop.</p>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">💸</div>
+          <h3>Buyers</h3>
+          <p>Browse markets, compare sellers, and find the best deals fast.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKETPLACES -->
+  <section id="markets">
+    <div class="wrap">
+      <div class="sectionTitle">Explore Marketplaces</div>
+      <div class="sectionSub">
+        Different shops for different needs. This is a visual showcase — plug real links later.
+      </div>
+
+      <div class="grid">
+        <div class="card glass c3">
+          <div class="icon">🔐</div>
+          <h3>MFA Marketplace</h3>
+          <p>Dedicated listings for MFA-based products and services inside a structured shop environment.</p>
+          <div class="list">
+            <div class="row"><small>Shop Category</small><span class="badge">MFA Market</span></div>
+            <div class="row"><small>Visibility</small><span class="badge">Slot Required</span></div>
+          </div>
+        </div>
+
+        <div class="card glass c3">
+          <div class="icon">🎁</div>
+          <h3>Nitro Marketplace</h3>
+          <p>Nitro & related shops with clean listing rules and quick discovery for buyers.</p>
+          <div class="list">
+            <div class="row"><small>Shop Category</small><span class="badge">Nitros</span></div>
+            <div class="row"><small>Discovery</small><span class="badge">Fast</span></div>
+          </div>
+        </div>
+
+        <div class="card glass c2">
+          <div class="icon">✨</div>
+          <h3>More Marketplace Categories</h3>
+          <p>Expand into more shops anytime — add categories like services, tools, bundles, etc.</p>
+          <div class="list">
+            <div class="row"><small>Coming Soon</small><span class="badge">More Shops</span></div>
+            <div class="row"><small>Owner Control</small><span class="badge">Flexible</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOT INFORMATION -->
+  <section id="slots">
+    <div class="wrap">
+      <div class="sectionTitle">Slot Information</div>
+      <div class="sectionSub">
+        Slots are how shops are organized. You buy a slot, open a Discord ticket, and get placed into the correct marketplace.
+      </div>
+
+      <div class="grid">
+        <div class="card glass c2">
+          <div class="icon">📌</div>
+          <h3>What is a Slot?</h3>
+          <p>A slot is a listing position for a shop category. It’s your place in the marketplace directory.</p>
+          <div class="list">
+            <div class="row"><small>Requirement</small><span class="badge">Ticket + Slot</span></div>
+            <div class="row"><small>Category</small><span class="badge">Choose Market</span></div>
+            <div class="row"><small>Placement</small><span class="badge">Organized</span></div>
+          </div>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">🧩</div>
+          <h3>Owners / Showcase</h3>
+          <p>This page is for display. Connect the real Discord ticket link when you’re ready.</p>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">🛡️</div>
+          <h3>Clean Layout</h3>
+          <p>Slots keep the market clean: less spam, more structure, easier discovery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sectionTitle">Contact Us</div>
+      <div class="sectionSub">
+        Replace these buttons with your real Discord invite / ticket URL when you want.
+      </div>
+
+      <div class="grid">
+        <div class="card glass c2">
+          <div class="icon">📨</div>
+          <h3>Discord Support</h3>
+          <p>Open a ticket in Discord to request a slot, ask questions, or get help.</p>
+          <div class="ctaRow" style="margin-top:14px">
+            <button class="btn">Open Discord</button>
+            <button class="btn secondary">Make Ticket</button>
+          </div>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">🌐</div>
+          <h3>Socials</h3>
+          <p>Add your socials here (YouTube / Twitter / etc.).</p>
+        </div>
+
+        <div class="card glass c1">
+          <div class="icon">💬</div>
+          <h3>Business</h3>
+          <p>Add a contact email or form later.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © Sky Marketplace — Made By Exo
+  </footer>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll("[data-scroll]").forEach(el => {
+      el.addEventListener("click", () => {
+        const target = document.querySelector(el.getAttribute("data-scroll"));
+        if (target) target.scrollIntoView({behavior:"smooth", block:"start"});
+      });
+    });
+
+    // Reveal animation on scroll
+    const cards = document.querySelectorAll(".card");
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("show");
+          obs.unobserve(e.target);
+        }
+      });
+    }, {threshold: .12});
+    cards.forEach(c=>obs.observe(c));
+
+    // Cursor glow
+    const glow = document.getElementById("glow");
+    window.addEventListener("mousemove", (e)=>{
+      glow.style.left = e.clientX + "px";
+      glow.style.top = e.clientY + "px";
+    });
+  </script>
+</body>
+</html>
