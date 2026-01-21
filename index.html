@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sky Marketplace</title>
+  <title>Sky Marketplace — Trailer Landing</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,103 +11,127 @@
 
   <style>
     :root{
-      --bg0:#05080f;
-      --bg1:#0a1020;
-      --glass: rgba(255,255,255,.085);
-      --glass2: rgba(255,255,255,.055);
-      --stroke: rgba(255,255,255,.22);
+      --bg0:#03050b;
+      --bg1:#070b17;
+      --glass: rgba(255,255,255,.10);
+      --glass2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.24);
       --stroke2: rgba(255,255,255,.14);
       --blue:#63dcff;
       --purple:#a07bff;
       --gold:#ffd47a;
-      --shadow: 0 30px 90px rgba(0,0,0,.55);
-      --shadow2: 0 15px 45px rgba(0,0,0,.45);
-      --radius: 26px;
+      --shadow: 0 30px 100px rgba(0,0,0,.62);
+      --shadow2: 0 16px 60px rgba(0,0,0,.52);
+      --radius: 28px;
+      --radius2: 22px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
-      background: radial-gradient(1200px 700px at 30% 25%, rgba(99,220,255,.18), transparent 55%),
-                  radial-gradient(1200px 700px at 70% 70%, rgba(160,123,255,.18), transparent 55%),
-                  linear-gradient(120deg, var(--bg1), var(--bg0));
-      color:#fff;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:#fff;
+      background: radial-gradient(1200px 700px at 30% 25%, rgba(99,220,255,.16), transparent 55%),
+                  radial-gradient(1200px 700px at 75% 70%, rgba(160,123,255,.16), transparent 55%),
+                  linear-gradient(120deg, var(--bg1), var(--bg0));
       overflow-x:hidden;
     }
 
-    /* --- “VIDEO-LIKE” MOVING SKY BACKGROUND LAYERS --- */
+    /* ====== BACKGROUND LAYERS (video-like) ====== */
     .bg{
-      position:fixed; inset:0; z-index:-4;
-      background: radial-gradient(900px 540px at 20% 25%, rgba(99,220,255,.22), transparent 55%),
-                  radial-gradient(1000px 600px at 80% 65%, rgba(160,123,255,.22), transparent 60%),
-                  radial-gradient(700px 460px at 60% 20%, rgba(255,212,122,.12), transparent 55%),
-                  linear-gradient(120deg, #0b1230, #05080f);
-      filter:saturate(120%);
-      animation:hue 10s infinite alternate ease-in-out;
-    }
-    @keyframes hue { from{filter:hue-rotate(0deg) saturate(120%)} to{filter:hue-rotate(18deg) saturate(140%)} }
-
-    /* Cloud streak layer */
-    .clouds{
-      position:fixed; inset:-30%; z-index:-3;
+      position:fixed; inset:0; z-index:-10;
       background:
-        radial-gradient(closest-side, rgba(255,255,255,.08), transparent 70%) 0 0/260px 260px,
-        radial-gradient(closest-side, rgba(255,255,255,.06), transparent 70%) 120px 80px/320px 320px,
-        radial-gradient(closest-side, rgba(255,255,255,.05), transparent 70%) 240px 30px/380px 380px;
-      filter: blur(10px);
-      opacity:.7;
-      animation: drift 28s linear infinite;
+        radial-gradient(900px 600px at 25% 20%, rgba(99,220,255,.20), transparent 60%),
+        radial-gradient(900px 600px at 75% 75%, rgba(160,123,255,.20), transparent 62%),
+        radial-gradient(700px 460px at 65% 25%, rgba(255,212,122,.11), transparent 55%),
+        linear-gradient(120deg, #0a1233, #040712);
+      filter:saturate(130%);
+      animation: hue 10s ease-in-out infinite alternate;
+    }
+    @keyframes hue { from{filter:hue-rotate(0deg) saturate(130%)} to{filter:hue-rotate(20deg) saturate(150%)} }
+
+    .clouds{
+      position:fixed; inset:-40%; z-index:-9;
+      background:
+        radial-gradient(closest-side, rgba(255,255,255,.08), transparent 68%) 0 0/280px 280px,
+        radial-gradient(closest-side, rgba(255,255,255,.06), transparent 68%) 140px 60px/360px 360px,
+        radial-gradient(closest-side, rgba(255,255,255,.05), transparent 68%) 280px 0/420px 420px;
+      filter: blur(12px);
+      opacity:.75;
+      animation: drift 26s linear infinite;
       transform: translate3d(0,0,0);
+      pointer-events:none;
     }
     @keyframes drift{
-      from{ transform: translate3d(-6%, -2%, 0) scale(1.1) }
-      to  { transform: translate3d(6%, 2%, 0)  scale(1.1) }
+      from{ transform: translate3d(-6%, -2%, 0) scale(1.15) }
+      to  { transform: translate3d(6%, 2%, 0)  scale(1.15) }
     }
 
-    /* Stars + particles */
-    .stars{
-      position:fixed; inset:0; z-index:-2;
-      background:
-        radial-gradient(circle, rgba(255,255,255,.45) 0 1px, transparent 2px) 0 0/140px 140px,
-        radial-gradient(circle, rgba(255,255,255,.35) 0 1px, transparent 2px) 60px 30px/160px 160px,
-        radial-gradient(circle, rgba(255,255,255,.25) 0 1px, transparent 2px) 30px 90px/180px 180px;
-      opacity:.35;
-      animation: twinkle 6s ease-in-out infinite alternate;
+    /* particle canvas */
+    canvas#particles{
+      position:fixed; inset:0; z-index:-8;
+      width:100%; height:100%;
+      pointer-events:none;
+      opacity:.9;
     }
-    @keyframes twinkle{ from{opacity:.25} to{opacity:.55} }
 
-    /* --- GLASSMORPHISM --- */
+    /* ====== GLASS ====== */
     .glass{
       background: linear-gradient(180deg, var(--glass), var(--glass2));
       border: 1px solid var(--stroke);
       border-radius: var(--radius);
-      box-shadow: var(--shadow2);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow2);
+    }
+    .glass-soft{
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--stroke2);
+      border-radius: var(--radius2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
-    /* --- GLOBAL LAYOUT --- */
-    .wrap{ width:min(1180px, 92vw); margin:0 auto; }
+    /* ====== LAYOUT ====== */
+    .wrap{ width:min(1220px, 92vw); margin:0 auto; }
+    .spacer{ height:14px; }
+
+    /* ====== NAV ====== */
     .nav{
-      position:sticky; top:18px; z-index:50;
-      padding:14px 18px;
-      margin:18px auto 0;
+      position:sticky; top:16px; z-index:200;
+      padding:12px 14px;
+      margin:16px auto 0;
       display:flex; align-items:center; justify-content:space-between; gap:14px;
+      overflow:hidden;
     }
+    .nav::before{
+      content:"";
+      position:absolute; inset:-80px;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(99,220,255,.18), transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(160,123,255,.18), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+      filter: blur(10px);
+    }
+    .nav > *{ position:relative; z-index:1; }
+
     .brand{
       display:flex; align-items:center; gap:12px;
       user-select:none;
     }
     .brand img{
-      width:42px; height:42px; border-radius:14px;
+      width:44px; height:44px; border-radius:14px;
       box-shadow: 0 0 30px rgba(99,220,255,.25);
+      border:1px solid rgba(255,255,255,.18);
     }
     .brand b{
       font-family:Orbitron, sans-serif;
       letter-spacing:1px;
-      font-size:16px;
+      font-size:15px;
     }
+    .brand small{ font-size:12px; opacity:.75; }
+
     .navlinks{
       display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
     }
@@ -115,9 +139,9 @@
       padding:9px 12px;
       border-radius:999px;
       border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.06);
+      background: rgba(0,0,0,.18);
       font-size:12px;
-      opacity:.9;
+      opacity:.92;
       cursor:pointer;
       transition:.25s;
       position:relative;
@@ -128,23 +152,43 @@
       border-color: var(--stroke);
       opacity:1;
     }
+    .chip.glowchip{
+      background: linear-gradient(135deg, rgba(99,220,255,.18), rgba(160,123,255,.18));
+      box-shadow: 0 0 35px rgba(99,220,255,.14);
+    }
 
-    /* --- HERO / TRAILER --- */
+    /* ====== HERO ====== */
     .hero{
-      min-height: calc(100vh - 90px);
+      min-height: calc(100vh - 86px);
       display:grid;
       place-items:center;
-      padding: 44px 0 34px;
+      padding: 36px 0 28px;
     }
+
     .heroCard{
-      padding: 34px 28px;
+      padding: 30px 26px;
       position:relative;
       overflow:hidden;
+      transform-style: preserve-3d;
     }
+
+    .heroCard::after{
+      content:"";
+      position:absolute; inset:-90px;
+      background:
+        conic-gradient(from 210deg, rgba(99,220,255,.00), rgba(99,220,255,.20), rgba(160,123,255,.00), rgba(255,212,122,.12), rgba(99,220,255,.00));
+      opacity:.9;
+      filter: blur(14px);
+      animation: spin 12s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes spin{ to{ transform: rotate(360deg) } }
+    .heroCard > *{ position:relative; z-index:1; }
+
     .heroGrid{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:24px;
+      grid-template-columns: 1.15fr .85fr;
+      gap:22px;
       align-items:center;
     }
     @media (max-width: 920px){
@@ -154,7 +198,7 @@
     .heroTitle{
       font-family:Orbitron, sans-serif;
       font-weight:800;
-      font-size: clamp(40px, 5vw, 72px);
+      font-size: clamp(44px, 5vw, 74px);
       letter-spacing: 2px;
       line-height: 1.02;
       background: linear-gradient(90deg, var(--blue), var(--purple), var(--gold));
@@ -163,27 +207,34 @@
       filter: drop-shadow(0 10px 28px rgba(0,0,0,.35));
     }
     .heroSub{
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 15px;
       opacity:.9;
-      max-width: 56ch;
+      max-width: 62ch;
+      line-height:1.7;
     }
 
-    /* animated tagline */
+    /* animated mini “trailer” text */
     .ticker{
-      margin-top: 18px;
+      margin-top: 16px;
       padding: 10px 14px;
       border-radius: 999px;
       border: 1px solid var(--stroke2);
-      background: rgba(0,0,0,.18);
+      background: rgba(0,0,0,.20);
       overflow:hidden;
       position:relative;
+    }
+    .ticker::before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,.55), transparent 20%, transparent 80%, rgba(0,0,0,.55));
+      pointer-events:none;
     }
     .tickerTrack{
       display:flex;
       gap:28px;
       width:max-content;
-      animation: ticker 16s linear infinite;
+      animation: ticker 14s linear infinite;
       opacity:.95;
       font-size: 13px;
       white-space:nowrap;
@@ -194,27 +245,40 @@
     }
 
     .ctaRow{
-      margin-top: 18px;
+      margin-top: 16px;
       display:flex; gap:12px; flex-wrap:wrap;
       align-items:center;
     }
     .btn{
       border:none;
-      padding: 14px 18px;
+      padding: 13px 18px;
       border-radius: 999px;
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
       color:#081018;
       background: linear-gradient(135deg, var(--blue), var(--purple));
-      box-shadow: 0 0 40px rgba(99,220,255,.25);
+      box-shadow: 0 0 40px rgba(99,220,255,.22);
       transition:.25s;
       position:relative;
       overflow:hidden;
     }
+    .btn::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.40), transparent 55%);
+      transform: translateX(-30%);
+      opacity:.0;
+      transition:.35s;
+    }
     .btn:hover{
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 0 70px rgba(160,123,255,.45);
+      box-shadow: 0 0 72px rgba(160,123,255,.42);
     }
+    .btn:hover::after{
+      opacity:.55;
+      transform: translateX(30%);
+    }
+
     .btn.secondary{
       color:#fff;
       background: rgba(255,255,255,.09);
@@ -224,52 +288,54 @@
     .btn.secondary:hover{
       border-color: var(--stroke);
       background: rgba(255,255,255,.12);
+      box-shadow: 0 0 55px rgba(99,220,255,.16);
     }
 
-    /* right side “logo trailer” */
+    /* ====== RIGHT HERO “LOGO SHOW” ====== */
     .logoShow{
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:12px;
       align-items:center;
       justify-content:center;
-      padding: 16px;
+      padding: 12px;
     }
     .bigLogo{
-      width:min(340px, 72vw);
+      width:min(340px, 78vw);
       aspect-ratio: 1/1;
-      border-radius: 30px;
+      border-radius: 32px;
+      border:1px solid rgba(255,255,255,.16);
       background:
-        radial-gradient(circle at 30% 20%, rgba(99,220,255,.25), transparent 55%),
-        radial-gradient(circle at 70% 80%, rgba(160,123,255,.25), transparent 60%),
+        radial-gradient(circle at 30% 20%, rgba(99,220,255,.22), transparent 55%),
+        radial-gradient(circle at 70% 80%, rgba(160,123,255,.22), transparent 60%),
         rgba(255,255,255,.06);
-      border:1px solid var(--stroke2);
       display:grid;
       place-items:center;
       overflow:hidden;
       position:relative;
       box-shadow: var(--shadow);
       transform: translate3d(0,0,0);
-      animation: float 4.5s ease-in-out infinite;
+      animation: float 4.6s ease-in-out infinite;
+      transform-style: preserve-3d;
     }
     @keyframes float{
       0%,100%{ transform: translateY(0) }
-      50%{ transform: translateY(-16px) }
+      50%{ transform: translateY(-14px) }
     }
     .bigLogo::before{
       content:"";
-      position:absolute; inset:-50%;
-      background: conic-gradient(from 180deg, rgba(99,220,255,.0), rgba(99,220,255,.28), rgba(160,123,255,.0), rgba(255,212,122,.18), rgba(99,220,255,.0));
+      position:absolute; inset:-55%;
+      background: conic-gradient(from 180deg, rgba(99,220,255,.0), rgba(99,220,255,.22), rgba(160,123,255,.0), rgba(255,212,122,.16), rgba(99,220,255,.0));
       animation: spin 10s linear infinite;
       filter: blur(10px);
+      opacity:.85;
     }
-    @keyframes spin{ to{ transform: rotate(360deg) } }
     .bigLogo img{
       width: 78%;
       filter: drop-shadow(0 20px 50px rgba(0,0,0,.55));
       position:relative;
       z-index:2;
-      transform: translateZ(0);
+      transform: translateZ(26px);
     }
 
     .miniStats{
@@ -279,32 +345,33 @@
       gap:10px;
     }
     .stat{
-      padding: 12px 12px;
+      padding: 12px 10px;
       border-radius: 18px;
       border: 1px solid var(--stroke2);
-      background: rgba(255,255,255,.06);
+      background: rgba(0,0,0,.18);
       text-align:center;
       transition:.25s;
     }
     .stat:hover{ transform: translateY(-3px); border-color: var(--stroke); }
-    .stat b{ display:block; font-family:Orbitron; letter-spacing:1px; }
-    .stat span{ font-size:12px; opacity:.85; }
+    .stat b{ display:block; font-family:Orbitron; letter-spacing:1px; font-size:13px; }
+    .stat span{ font-size:11px; opacity:.82; }
 
-    /* --- SECTIONS --- */
-    section{ padding: 90px 0; }
+    /* ====== SECTIONS ====== */
+    section{ padding: 92px 0; }
     .sectionTitle{
       font-family:Orbitron;
       font-size: clamp(28px, 3.2vw, 44px);
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       letter-spacing:1px;
     }
     .sectionSub{
-      opacity:.85;
-      max-width: 80ch;
+      opacity:.86;
+      max-width: 90ch;
       margin-bottom: 26px;
       font-size: 14px;
-      line-height:1.65;
+      line-height:1.75;
     }
+
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -314,21 +381,22 @@
       padding: 22px;
       position:relative;
       overflow:hidden;
-      transform: translateY(14px);
+      transform: translateY(16px);
       opacity:0;
-      transition: .7s cubic-bezier(.2,.8,.2,1);
+      transition: .8s cubic-bezier(.2,.8,.2,1);
+      transform-style: preserve-3d;
     }
-    .card.show{
-      transform: translateY(0);
-      opacity:1;
-    }
+    .card.show{ transform: translateY(0); opacity:1; }
+
     .card::after{
       content:"";
-      position:absolute; inset:-60px;
-      background: radial-gradient(circle at 20% 30%, rgba(99,220,255,.18), transparent 55%),
-                  radial-gradient(circle at 80% 70%, rgba(160,123,255,.18), transparent 60%);
-      opacity:.65;
+      position:absolute; inset:-70px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(99,220,255,.18), transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(160,123,255,.18), transparent 60%);
+      opacity:.75;
       pointer-events:none;
+      filter: blur(10px);
     }
     .card > *{ position:relative; z-index:1; }
 
@@ -341,31 +409,29 @@
     }
 
     .icon{
-      width:42px;height:42px;border-radius:14px;
+      width:44px;height:44px;border-radius:14px;
       display:grid;place-items:center;
       background: rgba(255,255,255,.08);
       border:1px solid var(--stroke2);
       margin-bottom: 12px;
       font-size:18px;
+      box-shadow: 0 0 35px rgba(99,220,255,.10);
+      transform: translateZ(14px);
     }
 
     .card h3{
-      font-size: 18px;
+      font-size: 17px;
       margin-bottom: 8px;
       font-family: Orbitron;
       letter-spacing: .8px;
     }
     .card p{
-      opacity:.88;
+      opacity:.89;
       font-size: 13px;
-      line-height:1.7;
+      line-height:1.75;
     }
 
-    .list{
-      margin-top: 12px;
-      display:grid;
-      gap: 10px;
-    }
+    .list{ margin-top: 12px; display:grid; gap:10px; }
     .row{
       padding: 12px 14px;
       border-radius: 18px;
@@ -376,7 +442,7 @@
       align-items:center;
       gap:12px;
     }
-    .row small{ opacity:.8 }
+    .row small{ opacity:.82 }
     .badge{
       font-size: 12px;
       padding: 7px 10px;
@@ -386,25 +452,294 @@
       white-space:nowrap;
     }
 
-    /* --- FOOTER --- */
+    /* ====== OWNER PROFILE (3D) ====== */
+    .profileWrap{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .profileWrap{ grid-template-columns:1fr; }
+    }
+
+    .ownerCard{
+      padding: 22px;
+      position:relative;
+      overflow:hidden;
+      transform-style: preserve-3d;
+      perspective: 900px;
+    }
+
+    .ownerHead{
+      display:flex;
+      align-items:center;
+      gap: 16px;
+    }
+    .pfp{
+      width: 74px; height: 74px;
+      border-radius: 22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 0 65px rgba(160,123,255,.18);
+      flex: 0 0 auto;
+      transform: translateZ(18px);
+    }
+    .pfp img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .ownerName{
+      font-family:Orbitron;
+      letter-spacing:1px;
+      font-size: 18px;
+      line-height: 1.2;
+      transform: translateZ(16px);
+    }
+    .ownerUser{
+      font-size: 12px;
+      opacity:.82;
+      margin-top: 4px;
+      transform: translateZ(10px);
+    }
+
+    .ownerButtons{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      transform: translateZ(12px);
+    }
+    .btnTiny{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke2);
+      background: rgba(0,0,0,.20);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s;
+    }
+    .btnTiny:hover{
+      transform: translateY(-2px);
+      border-color: var(--stroke);
+      box-shadow: 0 0 40px rgba(99,220,255,.14);
+    }
+
+    .ownerMeta{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      transform: translateZ(8px);
+    }
+    .metaBox{
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid var(--stroke2);
+    }
+    .metaBox small{ opacity:.78; display:block; font-size:11px; margin-bottom:6px; }
+    .metaBox b{ font-family:Orbitron; letter-spacing:.8px; font-size:12px; }
+
+    /* ====== MODAL ====== */
+    .modalBack{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index: 9999;
+      padding: 22px;
+    }
+    .modalBack.show{ display:flex; }
+
+    .modal{
+      width:min(980px, 96vw);
+      border-radius: 30px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      transform-style:preserve-3d;
+    }
+    .modal::before{
+      content:"";
+      position:absolute; inset:-80px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(99,220,255,.22), transparent 55%),
+        radial-gradient(circle at 85% 70%, rgba(160,123,255,.22), transparent 60%),
+        radial-gradient(circle at 60% 10%, rgba(255,212,122,.12), transparent 55%);
+      filter: blur(12px);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .modalInner{
+      position:relative; z-index:1;
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .modalInner{ grid-template-columns:1fr; }
+    }
+    .modalTop{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      position:relative; z-index:2;
+    }
+    .modalTop b{ font-family:Orbitron; letter-spacing:1px; }
+    .x{
+      width:40px;height:40px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .x:hover{ transform: scale(1.05); border-color: rgba(255,255,255,.28); }
+
+    .profile3d{
+      padding: 18px;
+      border-radius: 26px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      transform-style:preserve-3d;
+      perspective: 900px;
+    }
+    .profile3d .banner{
+      height: 130px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99,220,255,.28), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(160,123,255,.28), transparent 58%),
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+      overflow:hidden;
+    }
+    .profile3d .banner::after{
+      content:"";
+      position:absolute; inset:-60px;
+      background: conic-gradient(from 200deg, rgba(99,220,255,.0), rgba(99,220,255,.22), rgba(160,123,255,.0), rgba(255,212,122,.16), rgba(99,220,255,.0));
+      animation: spin 10s linear infinite;
+      filter: blur(10px);
+      opacity:.8;
+    }
+    .profile3d .row1{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      margin-top: -34px;
+      padding: 0 10px;
+    }
+    .profile3d .pfpBig{
+      width: 84px; height:84px;
+      border-radius: 26px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 0 70px rgba(160,123,255,.18);
+      transform: translateZ(26px);
+    }
+    .profile3d .pfpBig img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .profile3d .names{
+      margin-top: 18px;
+      transform: translateZ(20px);
+    }
+    .profile3d .names .n{
+      font-family:Orbitron;
+      letter-spacing:1px;
+      font-size: 18px;
+    }
+    .profile3d .names .u{
+      opacity:.82; font-size:12px; margin-top:4px;
+    }
+    .pillRow{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top: 12px;
+      transform: translateZ(16px);
+    }
+    .pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-size: 12px;
+      opacity:.92;
+    }
+    .pill.dot::before{
+      content:"";
+      display:inline-block;
+      width:10px;height:10px;border-radius:50%;
+      margin-right:8px;
+      vertical-align:-1px;
+      background: var(--blue);
+      box-shadow: 0 0 18px rgba(99,220,255,.5);
+    }
+    .pill.dot.purple::before{ background: var(--purple); box-shadow: 0 0 18px rgba(160,123,255,.55); }
+    .pill.dot.gold::before{ background: var(--gold); box-shadow: 0 0 18px rgba(255,212,122,.45); }
+
+    .profile3d .actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 12px;
+      transform: translateZ(14px);
+    }
+
+    .panel{
+      padding: 18px;
+      border-radius: 26px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      transform-style:preserve-3d;
+    }
+    .panel h4{
+      font-family:Orbitron;
+      letter-spacing:1px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .panel p{
+      font-size: 13px;
+      opacity:.88;
+      line-height: 1.75;
+    }
+
+    /* ====== GLOBAL EFFECTS ====== */
+    .glow{
+      position:fixed;
+      width:560px;height:560px;
+      border-radius:50%;
+      background: radial-gradient(circle, rgba(99,220,255,.12), transparent 60%);
+      pointer-events:none;
+      z-index:-6;
+      filter: blur(14px);
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+    }
+
+    .divider{
+      height:1px;
+      width:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+      margin: 18px 0;
+      opacity:.9;
+    }
+
     footer{
-      padding: 40px 0 60px;
-      opacity:.68;
+      padding: 44px 0 64px;
+      opacity:.7;
       text-align:center;
       font-size: 12px;
     }
 
-    /* --- cursor glow (heavy feel) --- */
-    .glow{
-      position:fixed;
-      width:520px;height:520px;
-      border-radius:50%;
-      background: radial-gradient(circle, rgba(99,220,255,.13), transparent 60%);
-      pointer-events:none;
-      z-index:-1;
-      filter: blur(14px);
-      transform: translate(-50%, -50%);
-      mix-blend-mode: screen;
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce){
+      .clouds, .bg, .bigLogo, .heroCard::after, .profile3d .banner::after, .tickerTrack { animation: none !important; }
+      .card, .chip, .btn { transition: none !important; }
     }
   </style>
 </head>
@@ -412,17 +747,17 @@
 <body>
   <div class="bg"></div>
   <div class="clouds"></div>
-  <div class="stars"></div>
+  <canvas id="particles"></canvas>
   <div class="glow" id="glow"></div>
 
   <!-- NAV -->
   <div class="wrap">
-    <div class="nav glass">
+    <div class="nav glass tilt" data-tilt="light">
       <div class="brand">
         <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048" alt="logo">
         <div>
           <b>SKY MARKETPLACE</b><br>
-          <span style="font-size:12px;opacity:.8;">Glass UI • Trailer Landing • Showcase</span>
+          <small>Glass UI • Trailer Landing • Fully Animated</small>
         </div>
       </div>
 
@@ -430,71 +765,90 @@
         <div class="chip" data-scroll="#how">How It Works</div>
         <div class="chip" data-scroll="#markets">Marketplaces</div>
         <div class="chip" data-scroll="#slots">Slot Info</div>
+        <div class="chip glowchip" id="openOwner">Owner Profile</div>
         <div class="chip" data-scroll="#contact">Contact</div>
       </div>
     </div>
+    <div class="spacer"></div>
   </div>
 
   <!-- HERO -->
   <main class="hero">
     <div class="wrap">
-      <div class="heroCard glass">
+      <div class="heroCard glass tilt" data-tilt="strong">
         <div class="heroGrid">
           <div>
             <div class="heroTitle">SKY MARKETPLACE</div>
             <div class="heroSub">
-              Buy Slots • Sellers Find Buyers • Buyers Find Sellers.<br>
-              Explore different marketplaces and discover trusted shops — all inside one Sky.
+              <b>Buy Slots</b> • <b>Sellers find buyers</b> • <b>Buyers find sellers</b><br>
+              Explore different markets like <b>MFA Market</b>, <b>Nitros</b>, and more.
+              Get a slot by opening a ticket in Discord — built for showcase & owners.
             </div>
 
-            <div class="ticker">
+            <div class="ticker glass-soft">
               <div class="tickerTrack">
                 <span>☁️ Sky Marketplace</span>
                 <span>🎟 Buy Slot</span>
-                <span>🧾 Open Discord Ticket</span>
-                <span>🛒 Sellers find buyers</span>
-                <span>💸 Buyers find sellers</span>
+                <span>🧾 Make Ticket in Discord</span>
+                <span>🛒 Sellers → Buyers</span>
+                <span>💸 Buyers → Sellers</span>
                 <span>🔐 MFA Market</span>
                 <span>🎁 Nitros</span>
-                <span>✨ More marketplaces</span>
+                <span>✨ More Marketplaces</span>
+
                 <span>☁️ Sky Marketplace</span>
                 <span>🎟 Buy Slot</span>
-                <span>🧾 Open Discord Ticket</span>
-                <span>🛒 Sellers find buyers</span>
-                <span>💸 Buyers find sellers</span>
+                <span>🧾 Make Ticket in Discord</span>
+                <span>🛒 Sellers → Buyers</span>
+                <span>💸 Buyers → Sellers</span>
                 <span>🔐 MFA Market</span>
                 <span>🎁 Nitros</span>
-                <span>✨ More marketplaces</span>
+                <span>✨ More Marketplaces</span>
               </div>
             </div>
 
             <div class="ctaRow">
-              <button class="btn" data-scroll="#slots">Buy Slot</button>
+              <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank" rel="noreferrer">Join Discord</a>
+              <button class="btn secondary" data-scroll="#slots">Buy Slot</button>
               <button class="btn secondary" data-scroll="#markets">Explore Markets</button>
-              <button class="btn secondary" data-scroll="#how">How It Works</button>
-              <button class="btn secondary" data-scroll="#contact">Contact Us</button>
+              <button class="btn secondary" id="openOwner2">Owner Profile</button>
             </div>
 
-            <div style="margin-top:16px;opacity:.75;font-size:12px">
-              Showcase only: “Make a ticket in Discord & get a slot” section is for display / owners.
+            <div class="divider"></div>
+
+            <div class="grid">
+              <div class="card glass-soft c4">
+                <div class="icon">⚡</div>
+                <h3>Instant Discovery</h3>
+                <p>Organized markets that make it easier to find sellers and compare offers.</p>
+              </div>
+              <div class="card glass-soft c4">
+                <div class="icon">🧊</div>
+                <h3>Heavy Glass UI</h3>
+                <p>Animated glass panels, glow, tilt, and trailer-style motion.</p>
+              </div>
+              <div class="card glass-soft c4">
+                <div class="icon">🧾</div>
+                <h3>Ticket → Slot</h3>
+                <p>Open a Discord ticket, request a slot, and get placed into your market.</p>
+              </div>
+              <div class="card glass-soft c4">
+                <div class="icon">🛡️</div>
+                <h3>Clean Layout</h3>
+                <p>Less spam, better structure. A marketplace that looks premium.</p>
+              </div>
             </div>
           </div>
 
           <div class="logoShow">
-            <div class="bigLogo">
+            <div class="bigLogo tilt" data-tilt="strong">
               <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048" alt="Sky Marketplace">
             </div>
 
             <div class="miniStats">
-              <div class="stat">
-                <b>Slots</b><span>Get yours</span>
-              </div>
-              <div class="stat">
-                <b>Markets</b><span>Multiple</span>
-              </div>
-              <div class="stat">
-                <b>Tickets</b><span>Discord</span>
-              </div>
+              <div class="stat glass-soft"><b>Slots</b><span>Get yours</span></div>
+              <div class="stat glass-soft"><b>Markets</b><span>Multiple</span></div>
+              <div class="stat glass-soft"><b>Tickets</b><span>Discord</span></div>
             </div>
           </div>
         </div>
@@ -507,33 +861,33 @@
     <div class="wrap">
       <div class="sectionTitle">How It Works</div>
       <div class="sectionSub">
-        Sky Marketplace is designed like a hub: sellers and buyers meet through organized marketplaces.
-        To get listed, you purchase a slot — then you’ll be visible in the right shop category.
+        Sky Marketplace is a hub: sellers and buyers meet through organized marketplaces.
+        To get listed, you purchase a slot and open a Discord ticket. This is a showcase page — connect real shop systems later.
       </div>
 
       <div class="grid">
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">🎟</div>
           <h3>Buy Slot</h3>
-          <p>Purchase a slot to get access to a shop category and listing privileges.</p>
+          <p>Purchase a slot to gain access to a category and listing visibility.</p>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">🧾</div>
           <h3>Open Ticket</h3>
-          <p>Create a Discord ticket to request a slot. Staff will guide the process.</p>
+          <p>Create a Discord ticket to request slot placement and shop setup.</p>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">🛒</div>
           <h3>Sellers</h3>
-          <p>List items in the correct market and let buyers discover your shop.</p>
+          <p>List items in the correct market and let buyers find your shop easily.</p>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">💸</div>
           <h3>Buyers</h3>
-          <p>Browse markets, compare sellers, and find the best deals fast.</p>
+          <p>Explore markets, compare sellers, and find deals faster.</p>
         </div>
       </div>
     </div>
@@ -544,36 +898,36 @@
     <div class="wrap">
       <div class="sectionTitle">Explore Marketplaces</div>
       <div class="sectionSub">
-        Different shops for different needs. This is a visual showcase — plug real links later.
+        Different shops for different needs. Add/rename categories anytime.
       </div>
 
       <div class="grid">
-        <div class="card glass c3">
+        <div class="card glass c3 tilt" data-tilt="light">
           <div class="icon">🔐</div>
           <h3>MFA Marketplace</h3>
           <p>Dedicated listings for MFA-based products and services inside a structured shop environment.</p>
           <div class="list">
-            <div class="row"><small>Shop Category</small><span class="badge">MFA Market</span></div>
+            <div class="row"><small>Category</small><span class="badge">MFA Market</span></div>
             <div class="row"><small>Visibility</small><span class="badge">Slot Required</span></div>
           </div>
         </div>
 
-        <div class="card glass c3">
+        <div class="card glass c3 tilt" data-tilt="light">
           <div class="icon">🎁</div>
           <h3>Nitro Marketplace</h3>
           <p>Nitro & related shops with clean listing rules and quick discovery for buyers.</p>
           <div class="list">
-            <div class="row"><small>Shop Category</small><span class="badge">Nitros</span></div>
+            <div class="row"><small>Category</small><span class="badge">Nitros</span></div>
             <div class="row"><small>Discovery</small><span class="badge">Fast</span></div>
           </div>
         </div>
 
-        <div class="card glass c2">
+        <div class="card glass c2 tilt" data-tilt="light">
           <div class="icon">✨</div>
-          <h3>More Marketplace Categories</h3>
-          <p>Expand into more shops anytime — add categories like services, tools, bundles, etc.</p>
+          <h3>More Marketplaces</h3>
+          <p>Expand into additional shops (services, tools, bundles, accounts, etc.) as you grow.</p>
           <div class="list">
-            <div class="row"><small>Coming Soon</small><span class="badge">More Shops</span></div>
+            <div class="row"><small>Status</small><span class="badge">Growing</span></div>
             <div class="row"><small>Owner Control</small><span class="badge">Flexible</span></div>
           </div>
         </div>
@@ -581,19 +935,20 @@
     </div>
   </section>
 
-  <!-- SLOT INFORMATION -->
+  <!-- SLOT INFO -->
   <section id="slots">
     <div class="wrap">
       <div class="sectionTitle">Slot Information</div>
       <div class="sectionSub">
-        Slots are how shops are organized. You buy a slot, open a Discord ticket, and get placed into the correct marketplace.
+        Slots are how the directory stays premium: you get a position and get listed in the right market.
+        The process is shown here (owners / showcase).
       </div>
 
       <div class="grid">
-        <div class="card glass c2">
+        <div class="card glass c2 tilt" data-tilt="light">
           <div class="icon">📌</div>
           <h3>What is a Slot?</h3>
-          <p>A slot is a listing position for a shop category. It’s your place in the marketplace directory.</p>
+          <p>A slot is your listing position in a shop category. It keeps markets organized and readable.</p>
           <div class="list">
             <div class="row"><small>Requirement</small><span class="badge">Ticket + Slot</span></div>
             <div class="row"><small>Category</small><span class="badge">Choose Market</span></div>
@@ -601,18 +956,78 @@
           </div>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">🧩</div>
           <h3>Owners / Showcase</h3>
-          <p>This page is for display. Connect the real Discord ticket link when you’re ready.</p>
+          <p>This page is for presentation. You can connect real shop systems later.</p>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">🛡️</div>
-          <h3>Clean Layout</h3>
-          <p>Slots keep the market clean: less spam, more structure, easier discovery.</p>
+          <h3>Anti-Spam</h3>
+          <p>Slots reduce clutter and improve trust + discoverability.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- OWNER SECTION -->
+  <section id="owner">
+    <div class="wrap">
+      <div class="sectionTitle">Owner Option</div>
+      <div class="sectionSub">
+        A premium owner card with a Discord-like vibe and 3D motion. Click “View Owner Profile”.
+      </div>
+
+      <div class="profileWrap">
+        <div class="ownerCard glass tilt" data-tilt="strong">
+          <div class="ownerHead">
+            <div class="pfp">
+              <img src="https://imgshare.cc/4ha0dvo3" alt="Owner Profile">
+            </div>
+            <div>
+              <div class="ownerName">SAS X MUHIO</div>
+              <div class="ownerUser">@muhio.sas • ID: 689027049230565392</div>
+            </div>
+          </div>
+
+          <div class="ownerButtons">
+            <button class="btnTiny" id="openOwner3">View Owner Profile</button>
+            <a class="btnTiny" href="https://discord.gg/SMAGtay8A2" target="_blank" rel="noreferrer">Join Discord</a>
+          </div>
+
+          <div class="ownerMeta">
+            <div class="metaBox">
+              <small>Role</small>
+              <b>Owner / Manager</b>
+            </div>
+            <div class="metaBox">
+              <small>Status</small>
+              <b>Online / Active</b>
+            </div>
+            <div class="metaBox">
+              <small>Theme</small>
+              <b>Glass + Sky</b>
+            </div>
+            <div class="metaBox">
+              <small>Focus</small>
+              <b>Markets + Slots</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="card glass c3 tilt" data-tilt="light">
+          <div class="icon">🧠</div>
+          <h3>Why an Owner Panel?</h3>
+          <p>For a professional website feel: show leadership, branding, and credibility — like a premium marketplace hub.</p>
+          <div class="list">
+            <div class="row"><small>Profile</small><span class="badge">3D + Animated</span></div>
+            <div class="row"><small>Links</small><span class="badge">Discord Ready</span></div>
+            <div class="row"><small>Design</small><span class="badge">Premium</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -621,41 +1036,102 @@
     <div class="wrap">
       <div class="sectionTitle">Contact Us</div>
       <div class="sectionSub">
-        Replace these buttons with your real Discord invite / ticket URL when you want.
+        Join the Discord server for support, slots, and marketplace access.
       </div>
 
       <div class="grid">
-        <div class="card glass c2">
+        <div class="card glass c2 tilt" data-tilt="light">
           <div class="icon">📨</div>
           <h3>Discord Support</h3>
-          <p>Open a ticket in Discord to request a slot, ask questions, or get help.</p>
+          <p>Open a ticket in Discord to request a slot, ask questions, or get help from staff.</p>
           <div class="ctaRow" style="margin-top:14px">
-            <button class="btn">Open Discord</button>
-            <button class="btn secondary">Make Ticket</button>
+            <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank" rel="noreferrer">Join Discord</a>
+            <button class="btn secondary" id="openOwner4">Owner Profile</button>
           </div>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">🌐</div>
-          <h3>Socials</h3>
-          <p>Add your socials here (YouTube / Twitter / etc.).</p>
+          <h3>More Links</h3>
+          <p>Add website pages, rules, FAQs, or seller verification here.</p>
         </div>
 
-        <div class="card glass c1">
+        <div class="card glass c1 tilt" data-tilt="light">
           <div class="icon">💬</div>
           <h3>Business</h3>
-          <p>Add a contact email or form later.</p>
+          <p>Add a contact form or business email later (optional).</p>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-    © Sky Marketplace — Made By Exo
+    © Sky Marketplace — Trailer Glass Landing • Join: discord.gg/SMAGtay8A2
   </footer>
 
+  <!-- OWNER MODAL -->
+  <div class="modalBack" id="modalBack">
+    <div class="modal tilt" data-tilt="strong" id="modalTilt">
+      <div class="modalTop">
+        <b>Owner Profile</b>
+        <button class="x" id="closeModal">✕</button>
+      </div>
+
+      <div class="modalInner">
+        <div class="profile3d tilt" data-tilt="strong" id="profileTilt">
+          <div class="banner"></div>
+
+          <div class="row1">
+            <div class="pfpBig">
+              <img src="https://imgshare.cc/4ha0dvo3" alt="SAS X MUHIO">
+            </div>
+            <div class="names">
+              <div class="n">SAS X MUHIO</div>
+              <div class="u">@muhio.sas • ID: 689027049230565392</div>
+              <div class="pillRow">
+                <span class="pill dot">Owner</span>
+                <span class="pill dot purple">Manager</span>
+                <span class="pill dot gold">Verified</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <a class="btn secondary" href="https://discord.gg/SMAGtay8A2" target="_blank" rel="noreferrer">Open Discord</a>
+            <button class="btn secondary" data-scroll="#slots" onclick="closeOwnerModal()">Slot Information</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="list">
+            <div class="row"><small>Discord Name</small><span class="badge">SAS X MUHIO</span></div>
+            <div class="row"><small>Username</small><span class="badge">muhio.sas</span></div>
+            <div class="row"><small>User ID</small><span class="badge">689027049230565392</span></div>
+          </div>
+        </div>
+
+        <div class="panel tilt" data-tilt="light">
+          <h4>Owner Notes</h4>
+          <p>
+            This section is designed to feel like a Discord profile card — premium, dark, and glassy.
+            You can later add: role badges, shop ownership list, trusted seller system, and staff profiles.
+          </p>
+
+          <div class="divider"></div>
+
+          <h4>Quick Actions</h4>
+          <p style="opacity:.85;margin-bottom:12px;">Join the server and open a ticket for slots and marketplace info.</p>
+          <div class="ctaRow">
+            <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank" rel="noreferrer">Join Discord</a>
+            <button class="btn secondary" onclick="closeOwnerModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Smooth scroll
+    /* ===== Smooth scroll ===== */
     document.querySelectorAll("[data-scroll]").forEach(el => {
       el.addEventListener("click", () => {
         const target = document.querySelector(el.getAttribute("data-scroll"));
@@ -663,7 +1139,7 @@
       });
     });
 
-    // Reveal animation on scroll
+    /* ===== Reveal cards ===== */
     const cards = document.querySelectorAll(".card");
     const obs = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
@@ -675,12 +1151,137 @@
     }, {threshold: .12});
     cards.forEach(c=>obs.observe(c));
 
-    // Cursor glow
+    /* ===== Cursor glow ===== */
     const glow = document.getElementById("glow");
     window.addEventListener("mousemove", (e)=>{
       glow.style.left = e.clientX + "px";
       glow.style.top = e.clientY + "px";
     });
+
+    /* ===== Owner modal ===== */
+    const modalBack = document.getElementById("modalBack");
+    const closeModalBtn = document.getElementById("closeModal");
+
+    function openOwnerModal(){
+      modalBack.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+    function closeOwnerModal(){
+      modalBack.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+    window.closeOwnerModal = closeOwnerModal;
+
+    document.getElementById("openOwner").addEventListener("click", openOwnerModal);
+    document.getElementById("openOwner2").addEventListener("click", openOwnerModal);
+    document.getElementById("openOwner3").addEventListener("click", openOwnerModal);
+    document.getElementById("openOwner4").addEventListener("click", openOwnerModal);
+    closeModalBtn.addEventListener("click", closeOwnerModal);
+    modalBack.addEventListener("click", (e)=>{ if(e.target === modalBack) closeOwnerModal(); });
+    window.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeOwnerModal(); });
+
+    /* ===== 3D tilt engine (no libs) =====
+       data-tilt="light" or "strong"
+    */
+    const tiltEls = [...document.querySelectorAll(".tilt")];
+
+    function applyTilt(el, clientX, clientY){
+      const rect = el.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width;
+      const y = (clientY - rect.top) / rect.height;
+
+      const strength = el.dataset.tilt === "strong" ? 14 : 8;
+      const rotY = (x - 0.5) * strength;
+      const rotX = -(y - 0.5) * strength;
+
+      el.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(0)`;
+    }
+
+    tiltEls.forEach(el=>{
+      el.style.willChange = "transform";
+      el.addEventListener("mousemove", (e)=> applyTilt(el, e.clientX, e.clientY));
+      el.addEventListener("mouseleave", ()=> el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)");
+      el.addEventListener("mouseenter", ()=> el.style.transition = "transform .12s ease");
+      el.addEventListener("mousemove", ()=> el.style.transition = "transform 0s");
+    });
+
+    /* ===== Particle canvas (heavy background feel) ===== */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    function resize(){
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const particles = [];
+    const COUNT = 90;
+
+    function rand(a,b){ return a + Math.random()*(b-a); }
+
+    function initParticles(){
+      particles.length = 0;
+      for(let i=0;i<COUNT;i++){
+        particles.push({
+          x: rand(0, window.innerWidth),
+          y: rand(0, window.innerHeight),
+          r: rand(1.2, 3.4),
+          vx: rand(-0.15, 0.15),
+          vy: rand(-0.10, 0.10),
+          a: rand(0.12, 0.55),
+          t: rand(0, Math.PI*2)
+        });
+      }
+    }
+    initParticles();
+
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    window.addEventListener("mousemove", (e)=>{ mx=e.clientX; my=e.clientY; });
+
+    function draw(){
+      ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+      // soft vignette
+      const g = ctx.createRadialGradient(mx,my, 60, mx,my, 520);
+      g.addColorStop(0, "rgba(99,220,255,0.10)");
+      g.addColorStop(0.55, "rgba(160,123,255,0.06)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+
+      // particles
+      for(const p of particles){
+        p.t += 0.01;
+        p.x += p.vx + Math.sin(p.t)*0.05;
+        p.y += p.vy + Math.cos(p.t)*0.05;
+
+        if(p.x < -20) p.x = window.innerWidth + 20;
+        if(p.x > window.innerWidth + 20) p.x = -20;
+        if(p.y < -20) p.y = window.innerHeight + 20;
+        if(p.y > window.innerHeight + 20) p.y = -20;
+
+        // glow dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${p.a})`;
+        ctx.fill();
+
+        // soft aura
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r*4, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(99,220,255,${p.a*0.10})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
   </script>
 </body>
 </html>
