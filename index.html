@@ -3,73 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sky Marketplace — Secure Trading Network</title>
+<title>Sky Marketplace — Launching Network</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ================= ROOT ================= */
 :root{
-  --bg0:#03050b;
-  --bg1:#070b17;
-  --glass1:rgba(255,255,255,.10);
+  --bg0:#02040b;
+  --bg1:#0a0f2a;
+  --glass1:rgba(255,255,255,.12);
   --glass2:rgba(255,255,255,.05);
   --stroke:rgba(255,255,255,.22);
   --blue:#63dcff;
   --purple:#a07bff;
   --gold:#ffd47a;
-  --shadow:0 30px 120px rgba(0,0,0,.7);
+  --shadow:0 30px 140px rgba(0,0,0,.85);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:Poppins,system-ui;
-  color:#fff;
+  font-family:Poppins;
   background:linear-gradient(120deg,var(--bg1),var(--bg0));
+  color:#fff;
   overflow-x:hidden;
   cursor:none;
 }
 
-/* ================= TRAILER INTRO ================= */
-.intro{
-  position:fixed;
-  inset:0;
+/* ================= GAME BOOT ================= */
+.boot{
+  position:fixed; inset:0;
   background:#000;
   z-index:9999;
   display:grid;
   place-items:center;
-  transition:opacity 1.2s ease, visibility 1.2s ease;
 }
-.intro.hide{
-  opacity:0;
-  visibility:hidden;
+.boot.hide{opacity:0;pointer-events:none;transition:1.2s}
+.bootBox{text-align:center}
+.bootBox img{
+  width:110px;
+  filter:drop-shadow(0 0 60px var(--blue));
+  animation:pulse 2s infinite alternate;
 }
-.introText{
-  text-align:center;
-  animation:introPulse 2.5s ease-in-out infinite alternate;
-}
-.introText h1{
+@keyframes pulse{to{transform:scale(1.08)}}
+.bootText{
+  margin-top:18px;
   font-family:Orbitron;
-  font-size:clamp(42px,6vw,88px);
-  background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.introText p{
-  margin-top:14px;
   letter-spacing:4px;
-  opacity:.8;
+  opacity:.85;
 }
-@keyframes introPulse{
-  from{transform:scale(.96);opacity:.7}
-  to{transform:scale(1.02);opacity:1}
+.bar{
+  margin-top:18px;
+  width:280px;height:6px;
+  background:#111;border-radius:6px;
+  overflow:hidden;
 }
+.bar span{
+  display:block;height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  animation:load 3.6s forwards;
+}
+@keyframes load{to{width:100%}}
 
-/* ================= CUSTOM CURSOR ================= */
+/* ================= CURSOR ================= */
 .cursor-dot,.cursor-ring{
   position:fixed;
-  top:0;left:0;
   pointer-events:none;
   z-index:10000;
 }
@@ -77,19 +76,12 @@ body{
   width:6px;height:6px;
   background:var(--blue);
   border-radius:50%;
-  transform:translate(-50%,-50%);
 }
 .cursor-ring{
   width:34px;height:34px;
   border:2px solid rgba(99,220,255,.5);
   border-radius:50%;
-  transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,border .2s;
-}
-a:hover ~ .cursor-ring,
-button:hover ~ .cursor-ring{
-  width:56px;height:56px;
-  border-color:var(--purple);
+  transition:.15s;
 }
 
 /* ================= BACKGROUND ================= */
@@ -98,169 +90,121 @@ button:hover ~ .cursor-ring{
   background:
     radial-gradient(circle at 20% 20%, rgba(99,220,255,.18), transparent 55%),
     radial-gradient(circle at 80% 70%, rgba(160,123,255,.18), transparent 60%),
-    radial-gradient(circle at 60% 40%, rgba(255,212,122,.10), transparent 50%),
-    linear-gradient(120deg,#0b1440,#02040b);
-  animation:bgShift 14s ease-in-out infinite alternate;
+    linear-gradient(120deg,#0a1445,#02040b);
+  animation:bg 16s infinite alternate;
   z-index:-10;
 }
-@keyframes bgShift{to{filter:hue-rotate(25deg) saturate(140%)}}
-
-.fog{
-  position:fixed; inset:-50%;
-  background:
-    radial-gradient(closest-side, rgba(255,255,255,.08), transparent 70%) 0 0/260px 260px,
-    radial-gradient(closest-side, rgba(255,255,255,.06), transparent 70%) 140px 80px/360px 360px;
-  filter:blur(18px);
-  opacity:.65;
-  animation:fogMove 40s linear infinite;
-  z-index:-9;
-}
-@keyframes fogMove{to{transform:translate(6%,3%)}}
-
-canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:-8}
+@keyframes bg{to{filter:hue-rotate(25deg) saturate(140%)}}
+canvas#fx{position:fixed;inset:0;z-index:-8}
 
 /* ================= GLASS ================= */
 .glass{
   background:linear-gradient(180deg,var(--glass1),var(--glass2));
   border:1px solid var(--stroke);
-  backdrop-filter:blur(20px);
+  backdrop-filter:blur(22px);
   border-radius:30px;
   box-shadow:var(--shadow);
 }
 
 /* ================= NAV ================= */
 .nav{
-  position:sticky;top:16px;z-index:100;
-  margin:16px auto;
-  padding:14px 18px;
+  position:sticky;top:18px;
+  margin:18px auto;
   max-width:1200px;
+  padding:14px 18px;
   display:flex;justify-content:space-between;align-items:center;
+  z-index:100;
 }
 .brand{display:flex;align-items:center;gap:14px}
-.brand img{width:46px;height:46px;border-radius:14px}
+.brand img{width:46px;border-radius:14px}
 .brand b{font-family:Orbitron;letter-spacing:1px}
-.nav a{
-  color:#fff;text-decoration:none;
-  padding:10px 14px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(0,0,0,.3);
-  font-size:12px;
-  transition:.25s;
-}
 
 /* ================= HERO ================= */
-.hero{min-height:100vh;display:grid;place-items:center}
+.hero{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+}
 .heroCard{
   max-width:1200px;
-  padding:42px;
-  position:relative;
-  overflow:hidden;
-  transform:translateY(60px);
+  padding:46px;
   opacity:0;
-  animation:heroIn 1.6s ease forwards 1.2s;
+  transform:translateY(80px);
+  animation:heroIn 1.6s ease forwards 4s;
 }
-@keyframes heroIn{
-  to{transform:none;opacity:1}
-}
-.heroCard::before{
-  content:"";
-  position:absolute;inset:-60%;
-  background:conic-gradient(from 180deg,
-    rgba(99,220,255,.0),
-    rgba(99,220,255,.25),
-    rgba(160,123,255,.0),
-    rgba(255,212,122,.18),
-    rgba(99,220,255,.0));
-  animation:spin 14s linear infinite;
-  filter:blur(18px);
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes heroIn{to{opacity:1;transform:none}}
 
-.heroGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;z-index:2}
+.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px}
 @media(max-width:900px){.heroGrid{grid-template-columns:1fr}}
 
 .heroTitle{
   font-family:Orbitron;
-  font-size:clamp(52px,6vw,86px);
+  font-size:clamp(52px,6vw,88px);
   background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-.heroSub{margin-top:18px;font-size:16px;line-height:1.9;opacity:.9}
+.heroSub{margin-top:18px;line-height:1.9;opacity:.9}
 
-.cta{margin-top:22px;display:flex;gap:14px;flex-wrap:wrap}
 .btn{
-  padding:16px 22px;
+  margin-top:24px;
+  padding:16px 26px;
   border-radius:999px;
   border:none;
   font-weight:800;
-  cursor:pointer;
   background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:#081018;
-  box-shadow:0 0 60px rgba(99,220,255,.35);
+  cursor:pointer;
 }
 
-/* ================= LOGO ================= */
-.logoBox{
-  aspect-ratio:1/1;
-  border-radius:36px;
-  display:grid;place-items:center;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(99,220,255,.25), transparent 55%),
-    radial-gradient(circle at 70% 80%, rgba(160,123,255,.25), transparent 60%),
-    rgba(255,255,255,.05);
-  animation:float 5s ease-in-out infinite;
-}
-@keyframes float{50%{transform:translateY(-18px)}}
-.logoBox img{width:78%;filter:drop-shadow(0 25px 60px rgba(0,0,0,.7))}
-
-/* ================= SECTIONS ================= */
+/* ================= OWNER ================= */
 section{padding:120px 0}
-.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1200px;margin:auto;padding:0 20px}
 h2{font-family:Orbitron;font-size:42px;margin-bottom:14px}
-p.sub{opacity:.85;max-width:80ch;line-height:1.9}
 
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:36px}
-.card{
-  padding:28px;
-  grid-column:span 4;
-  opacity:0;
-  transform:translateY(40px);
-  transition:1s cubic-bezier(.2,.8,.2,1);
+.ownerCard{
+  display:flex;
+  gap:26px;
+  align-items:center;
+  padding:34px;
+  transform-style:preserve-3d;
 }
-.card.show{opacity:1;transform:none}
-@media(max-width:900px){.card{grid-column:span 12}}
+.ownerCard img{
+  width:96px;height:96px;
+  border-radius:28px;
+  box-shadow:0 0 70px rgba(160,123,255,.45);
+}
+.ownerInfo h3{
+  font-family:Orbitron;
+  letter-spacing:1px;
+}
+.ownerInfo p{opacity:.8}
 
-footer{padding:60px 0;text-align:center;opacity:.7;font-size:12px}
+/* ================= FOOTER ================= */
+footer{text-align:center;padding:60px 0;opacity:.6}
 </style>
 </head>
 
 <body>
 
-<!-- TRAILER -->
-<div class="intro" id="intro">
-  <div class="introText">
-    <h1>SKY MARKETPLACE</h1>
-    <p>INITIALIZING NETWORK</p>
+<!-- BOOT -->
+<div class="boot" id="boot">
+  <div class="bootBox">
+    <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
+    <div class="bootText">INITIALIZING SKY MARKETPLACE</div>
+    <div class="bar"><span></span></div>
   </div>
 </div>
 
-<!-- CURSOR -->
-<div class="cursor-dot" id="cDot"></div>
-<div class="cursor-ring" id="cRing"></div>
+<div class="cursor-dot" id="cd"></div>
+<div class="cursor-ring" id="cr"></div>
 
 <div class="bg"></div>
-<div class="fog"></div>
 <canvas id="fx"></canvas>
 
 <nav class="nav glass">
   <div class="brand">
     <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
     <b>SKY MARKETPLACE</b>
-  </div>
-  <div>
-    <a href="#markets">Markets</a>
-    <a href="https://discord.gg/SMAGtay8A2" target="_blank">Discord</a>
   </div>
 </nav>
 
@@ -270,68 +214,57 @@ footer{padding:60px 0;text-align:center;opacity:.7;font-size:12px}
       <div>
         <div class="heroTitle">SKY MARKETPLACE</div>
         <div class="heroSub">
-          A premium digital trading ecosystem connecting buyers and sellers
-          through trusted marketplaces.
+          A game-launcher style trading network.<br>
+          Built for buyers. Built for sellers. Built to scale.
         </div>
-        <div class="cta">
-          <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank">Join Discord</a>
-        </div>
+        <button class="btn" onclick="location.href='https://discord.gg/SMAGtay8A2'">
+          ENTER NETWORK
+        </button>
       </div>
-      <div class="logoBox glass">
-        <img src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
+      <div>
+        <img style="width:100%;filter:drop-shadow(0 40px 80px #000)"
+        src="https://cdn.discordapp.com/icons/1461504672165658790/c30a092bf07b6001d5bc875e8d01a1b3.webp?size=2048">
       </div>
     </div>
   </div>
 </main>
 
-<section id="markets">
+<section id="owner">
   <div class="wrap">
-    <h2>Marketplaces</h2>
-    <p class="sub">Structured markets built for trust, scale, and visibility.</p>
-    <div class="grid">
-      <div class="card glass">🔐 MFA Marketplace</div>
-      <div class="card glass">🎁 Nitro Marketplace</div>
-      <div class="card glass">✨ Expanding Categories</div>
+    <h2>Project Owner</h2>
+    <div class="ownerCard glass">
+      <img src="https://cdn.discordapp.com/avatars/689027049230565392/be576c887e27ad5c015999a26ffc8e21.webp?size=4096">
+      <div class="ownerInfo">
+        <h3>SAS X MUHIO</h3>
+        <p>@muhio.sas</p>
+        <p>ID: 689027049230565392</p>
+        <p>Founder & Network Operator</p>
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
-  © Sky Marketplace • Secure Trading Network • discord.gg/SMAGtay8A2
+  © Sky Marketplace — discord.gg/SMAGtay8A2
 </footer>
 
 <script>
-/* ===== intro ===== */
-setTimeout(()=>document.getElementById("intro").classList.add("hide"),2400);
+/* boot */
+setTimeout(()=>document.getElementById("boot").classList.add("hide"),3600);
 
-/* ===== cursor ===== */
-const dot=document.getElementById("cDot");
-const ring=document.getElementById("cRing");
-window.addEventListener("mousemove",e=>{
-  dot.style.left=ring.style.left=e.clientX+"px";
-  dot.style.top=ring.style.top=e.clientY+"px";
+/* cursor */
+const cd=document.getElementById("cd"),cr=document.getElementById("cr");
+addEventListener("mousemove",e=>{
+  cd.style.left=cr.style.left=e.clientX+"px";
+  cd.style.top=cr.style.top=e.clientY+"px";
 });
 
-/* ===== reveal ===== */
-const cards=document.querySelectorAll(".card");
-const io=new IntersectionObserver(e=>{
-  e.forEach(x=>{
-    if(x.isIntersecting){
-      x.target.classList.add("show");
-      io.unobserve(x.target);
-    }
-  })
-},{threshold:.15});
-cards.forEach(c=>io.observe(c));
-
-/* ===== particles ===== */
-const c=document.getElementById("fx");
-const ctx=c.getContext("2d");
-let w,h;
-function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
-resize();onresize=resize;
-const P=[...Array(160)].map(()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1}));
-(function draw(){
+/* particles */
+const c=document.getElementById("fx"),ctx=c.getContext("2d");
+let w,h;function rs(){w=c.width=innerWidth;h=c.height=innerHeight}
+rs();onresize=rs;
+const P=[...Array(140)].map(()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1}));
+(function d(){
   ctx.clearRect(0,0,w,h);
   P.forEach(p=>{
     p.x+=p.vx;p.y+=p.vy;
@@ -339,10 +272,10 @@ const P=[...Array(160)].map(()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.r
     if(p.y<0||p.y>h)p.vy*=-1;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle="rgba(255,255,255,.4)";
+    ctx.fillStyle="rgba(255,255,255,.35)";
     ctx.fill();
   });
-  requestAnimationFrame(draw);
+  requestAnimationFrame(d);
 })();
 </script>
 
