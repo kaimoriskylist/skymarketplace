@@ -23,15 +23,76 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-
 body{
   font-family:Poppins,system-ui;
   color:#fff;
   background:linear-gradient(120deg,var(--bg1),var(--bg0));
   overflow-x:hidden;
+  cursor:none;
 }
 
-/* ================= CINEMATIC BACKGROUND ================= */
+/* ================= TRAILER INTRO ================= */
+.intro{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  transition:opacity 1.2s ease, visibility 1.2s ease;
+}
+.intro.hide{
+  opacity:0;
+  visibility:hidden;
+}
+.introText{
+  text-align:center;
+  animation:introPulse 2.5s ease-in-out infinite alternate;
+}
+.introText h1{
+  font-family:Orbitron;
+  font-size:clamp(42px,6vw,88px);
+  background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.introText p{
+  margin-top:14px;
+  letter-spacing:4px;
+  opacity:.8;
+}
+@keyframes introPulse{
+  from{transform:scale(.96);opacity:.7}
+  to{transform:scale(1.02);opacity:1}
+}
+
+/* ================= CUSTOM CURSOR ================= */
+.cursor-dot,.cursor-ring{
+  position:fixed;
+  top:0;left:0;
+  pointer-events:none;
+  z-index:10000;
+}
+.cursor-dot{
+  width:6px;height:6px;
+  background:var(--blue);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+.cursor-ring{
+  width:34px;height:34px;
+  border:2px solid rgba(99,220,255,.5);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,border .2s;
+}
+a:hover ~ .cursor-ring,
+button:hover ~ .cursor-ring{
+  width:56px;height:56px;
+  border-color:var(--purple);
+}
+
+/* ================= BACKGROUND ================= */
 .bg{
   position:fixed; inset:-20%;
   background:
@@ -42,11 +103,8 @@ body{
   animation:bgShift 14s ease-in-out infinite alternate;
   z-index:-10;
 }
-@keyframes bgShift{
-  to{filter:hue-rotate(25deg) saturate(140%)}
-}
+@keyframes bgShift{to{filter:hue-rotate(25deg) saturate(140%)}}
 
-/* moving fog */
 .fog{
   position:fixed; inset:-50%;
   background:
@@ -57,16 +115,9 @@ body{
   animation:fogMove 40s linear infinite;
   z-index:-9;
 }
-@keyframes fogMove{
-  to{transform:translate(6%,3%)}
-}
+@keyframes fogMove{to{transform:translate(6%,3%)}}
 
-/* ================= PARTICLES ================= */
-canvas#fx{
-  position:fixed; inset:0;
-  pointer-events:none;
-  z-index:-8;
-}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:-8}
 
 /* ================= GLASS ================= */
 .glass{
@@ -79,11 +130,11 @@ canvas#fx{
 
 /* ================= NAV ================= */
 .nav{
-  position:sticky; top:16px; z-index:100;
+  position:sticky;top:16px;z-index:100;
   margin:16px auto;
   padding:14px 18px;
   max-width:1200px;
-  display:flex; justify-content:space-between; align-items:center;
+  display:flex;justify-content:space-between;align-items:center;
 }
 .brand{display:flex;align-items:center;gap:14px}
 .brand img{width:46px;height:46px;border-radius:14px}
@@ -96,25 +147,24 @@ canvas#fx{
   font-size:12px;
   transition:.25s;
 }
-.nav a:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 40px rgba(99,220,255,.35);
-}
 
 /* ================= HERO ================= */
-.hero{
-  min-height:100vh;
-  display:grid; place-items:center;
-}
+.hero{min-height:100vh;display:grid;place-items:center}
 .heroCard{
   max-width:1200px;
   padding:42px;
   position:relative;
   overflow:hidden;
+  transform:translateY(60px);
+  opacity:0;
+  animation:heroIn 1.6s ease forwards 1.2s;
+}
+@keyframes heroIn{
+  to{transform:none;opacity:1}
 }
 .heroCard::before{
   content:"";
-  position:absolute; inset:-60%;
+  position:absolute;inset:-60%;
   background:conic-gradient(from 180deg,
     rgba(99,220,255,.0),
     rgba(99,220,255,.25),
@@ -126,13 +176,7 @@ canvas#fx{
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.heroGrid{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:40px;
-  position:relative;
-  z-index:2;
-}
+.heroGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;z-index:2}
 @media(max-width:900px){.heroGrid{grid-template-columns:1fr}}
 
 .heroTitle{
@@ -141,20 +185,9 @@ canvas#fx{
   background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:textGlow 4s ease-in-out infinite alternate;
 }
-@keyframes textGlow{
-  to{text-shadow:0 0 40px rgba(99,220,255,.6)}
-}
+.heroSub{margin-top:18px;font-size:16px;line-height:1.9;opacity:.9}
 
-.heroSub{
-  margin-top:18px;
-  font-size:16px;
-  line-height:1.9;
-  opacity:.9;
-}
-
-/* CTA */
 .cta{margin-top:22px;display:flex;gap:14px;flex-wrap:wrap}
 .btn{
   padding:16px 22px;
@@ -165,17 +198,9 @@ canvas#fx{
   background:linear-gradient(135deg,var(--blue),var(--purple));
   color:#081018;
   box-shadow:0 0 60px rgba(99,220,255,.35);
-  transition:.25s;
 }
-.btn.secondary{
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.18);
-  color:#fff;
-  box-shadow:none;
-}
-.btn:hover{transform:scale(1.06)}
 
-/* ================= LOGO 3D ================= */
+/* ================= LOGO ================= */
 .logoBox{
   aspect-ratio:1/1;
   border-radius:36px;
@@ -185,33 +210,17 @@ canvas#fx{
     radial-gradient(circle at 70% 80%, rgba(160,123,255,.25), transparent 60%),
     rgba(255,255,255,.05);
   animation:float 5s ease-in-out infinite;
-  transform-style:preserve-3d;
 }
 @keyframes float{50%{transform:translateY(-18px)}}
-.logoBox img{
-  width:78%;
-  filter:drop-shadow(0 25px 60px rgba(0,0,0,.7));
-  transform:translateZ(28px);
-}
+.logoBox img{width:78%;filter:drop-shadow(0 25px 60px rgba(0,0,0,.7))}
 
 /* ================= SECTIONS ================= */
 section{padding:120px 0}
 .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-
-h2{
-  font-family:Orbitron;
-  font-size:42px;
-  margin-bottom:14px;
-}
+h2{font-family:Orbitron;font-size:42px;margin-bottom:14px}
 p.sub{opacity:.85;max-width:80ch;line-height:1.9}
 
-/* Cards */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:18px;
-  margin-top:36px;
-}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:36px}
 .card{
   padding:28px;
   grid-column:span 4;
@@ -219,33 +228,27 @@ p.sub{opacity:.85;max-width:80ch;line-height:1.9}
   transform:translateY(40px);
   transition:1s cubic-bezier(.2,.8,.2,1);
 }
-.card.show{
-  opacity:1;
-  transform:translateY(0);
-}
+.card.show{opacity:1;transform:none}
 @media(max-width:900px){.card{grid-column:span 12}}
 
-/* ================= OWNER ================= */
-.owner{
-  display:flex;gap:24px;align-items:center;flex-wrap:wrap;
-}
-.owner img{
-  width:90px;height:90px;border-radius:26px;
-  box-shadow:0 0 60px rgba(160,123,255,.4);
-}
-.owner h3{font-family:Orbitron}
-
-/* ================= FOOTER ================= */
-footer{
-  padding:60px 0;
-  text-align:center;
-  opacity:.7;
-  font-size:12px;
-}
+footer{padding:60px 0;text-align:center;opacity:.7;font-size:12px}
 </style>
 </head>
 
 <body>
+
+<!-- TRAILER -->
+<div class="intro" id="intro">
+  <div class="introText">
+    <h1>SKY MARKETPLACE</h1>
+    <p>INITIALIZING NETWORK</p>
+  </div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+
 <div class="bg"></div>
 <div class="fog"></div>
 <canvas id="fx"></canvas>
@@ -257,7 +260,6 @@ footer{
   </div>
   <div>
     <a href="#markets">Markets</a>
-    <a href="#owner">Owner</a>
     <a href="https://discord.gg/SMAGtay8A2" target="_blank">Discord</a>
   </div>
 </nav>
@@ -268,12 +270,11 @@ footer{
       <div>
         <div class="heroTitle">SKY MARKETPLACE</div>
         <div class="heroSub">
-          A high-end digital trading network connecting buyers and sellers
-          through structured, verified marketplaces built for scale and trust.
+          A premium digital trading ecosystem connecting buyers and sellers
+          through trusted marketplaces.
         </div>
         <div class="cta">
           <a class="btn" href="https://discord.gg/SMAGtay8A2" target="_blank">Join Discord</a>
-          <a class="btn secondary" href="#markets">Explore Markets</a>
         </div>
       </div>
       <div class="logoBox glass">
@@ -286,24 +287,11 @@ footer{
 <section id="markets">
   <div class="wrap">
     <h2>Marketplaces</h2>
-    <p class="sub">Dedicated environments designed for visibility, order, and trust.</p>
+    <p class="sub">Structured markets built for trust, scale, and visibility.</p>
     <div class="grid">
       <div class="card glass">🔐 MFA Marketplace</div>
       <div class="card glass">🎁 Nitro Marketplace</div>
       <div class="card glass">✨ Expanding Categories</div>
-    </div>
-  </div>
-</section>
-
-<section id="owner">
-  <div class="wrap">
-    <h2>Platform Leadership</h2>
-    <div class="owner glass" style="padding:28px">
-      <img src="https://cdn.discordapp.com/avatars/689027049230565392/be576c887e27ad5c015999a26ffc8e21.webp?size=4096">
-      <div>
-        <h3>SAS X MUHIO</h3>
-        <p class="sub">@muhio.sas • 689027049230565392</p>
-      </div>
     </div>
   </div>
 </section>
@@ -313,12 +301,23 @@ footer{
 </footer>
 
 <script>
-/* ===== reveal on scroll ===== */
-const cards=document.querySelectorAll('.card');
+/* ===== intro ===== */
+setTimeout(()=>document.getElementById("intro").classList.add("hide"),2400);
+
+/* ===== cursor ===== */
+const dot=document.getElementById("cDot");
+const ring=document.getElementById("cRing");
+window.addEventListener("mousemove",e=>{
+  dot.style.left=ring.style.left=e.clientX+"px";
+  dot.style.top=ring.style.top=e.clientY+"px";
+});
+
+/* ===== reveal ===== */
+const cards=document.querySelectorAll(".card");
 const io=new IntersectionObserver(e=>{
   e.forEach(x=>{
     if(x.isIntersecting){
-      x.target.classList.add('show');
+      x.target.classList.add("show");
       io.unobserve(x.target);
     }
   })
@@ -329,20 +328,10 @@ cards.forEach(c=>io.observe(c));
 const c=document.getElementById("fx");
 const ctx=c.getContext("2d");
 let w,h;
-function resize(){
-  w=c.width=window.innerWidth;
-  h=c.height=window.innerHeight;
-}
-resize();window.onresize=resize;
-
-const P=[...Array(120)].map(()=>({
-  x:Math.random()*w,y:Math.random()*h,
-  r:Math.random()*2+1,
-  vx:(Math.random()-.5)*.3,
-  vy:(Math.random()-.5)*.3
-}));
-
-function draw(){
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+resize();onresize=resize;
+const P=[...Array(160)].map(()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1}));
+(function draw(){
   ctx.clearRect(0,0,w,h);
   P.forEach(p=>{
     p.x+=p.vx;p.y+=p.vy;
@@ -350,12 +339,12 @@ function draw(){
     if(p.y<0||p.y>h)p.vy*=-1;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle="rgba(255,255,255,.35)";
+    ctx.fillStyle="rgba(255,255,255,.4)";
     ctx.fill();
   });
   requestAnimationFrame(draw);
-}
-draw();
+})();
 </script>
+
 </body>
 </html>
